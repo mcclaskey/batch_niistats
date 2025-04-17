@@ -19,6 +19,7 @@ CMcC 4.9.2025
 ##############################################################################
 
 import src.modules.utilities as utilities
+import src.modules.nii as nii
 import os
 import pandas as pd
 import datetime
@@ -48,7 +49,7 @@ with concurrent.futures.ThreadPoolExecutor() as executor:
         filter(
             None, 
             executor.map(
-                lambda nii_file: utilities.compute_mean(nii_file, valid_files), 
+                lambda nii_file: nii.compute_mean(nii_file, valid_files), 
                 datalist['input_file'])
                 )
         )
