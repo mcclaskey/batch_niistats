@@ -2,8 +2,9 @@
 # -*- coding : utf-8 -*-
 
 """
-Script to compile the text output of nibabel mean into a csv file with
-filenames. Intended to be used after running batch_niistats.sh.
+Script to calculate the mean value of a set of .nii and returns a .csv
+file with the output values. The mean value of each .nii is calculated
+across all nonzero voxels in the image.
 
 This function prompts the user for the csv file that contains input 
 .nii files (which was used in the bash script), and then compiles the 
@@ -42,7 +43,7 @@ datalist = pd.read_csv(datalist_filepath)
 valid_files = {f for f in datalist['input_file'] if os.path.exists(f)}
 
 ##############################################################################
-# Loop through the rows in the csv, call fsl and add result to list
+# Loop through the rows in the csv, call batch_niimean and add result to list
 ##############################################################################
 omit_zeroes = True
 print(f'omit_zeroes flag: {omit_zeroes}')
@@ -64,3 +65,7 @@ with concurrent.futures.ThreadPoolExecutor() as executor:
 combined_df = pd.DataFrame(list_of_data)
 print(combined_df)
 utilities.save_output_csv(combined_df,datalist_filepath)
+
+
+if __name__ == "__main__":
+    batch_niistats()
