@@ -14,7 +14,7 @@ Put together a list of your .nii files and save this list as a single-column .cs
 
 ## 2. Run scripts 
 
-Open a terminal and activate your project environment, then run the following 2 lines:
+Open a terminal and activate your project environment, then run the following line:
 ```
 python3 batch_niistats.py
 ```
