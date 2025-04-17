@@ -44,7 +44,7 @@ valid_files = {f for f in datalist['input_file'] if os.path.exists(f)}
 ##############################################################################
 # Loop through the rows in the csv, call fsl and add result to list
 ##############################################################################
-omit_zeroes = False
+omit_zeroes = True
 with concurrent.futures.ThreadPoolExecutor() as executor:
     list_of_data = list(
         filter(
