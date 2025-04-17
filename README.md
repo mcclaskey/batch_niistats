@@ -1,5 +1,7 @@
 # batch_niistats
-Small set of functions that use nibabel to calculate mean value of a set of .nii files.
+Small set of functions that take a list of 2D nifti files and return a .csv file that contains the mean value of each image. Pure python code that works very quickly on all operating systems.
+
+The mean value of each .nii file is calculated for all voxels in the .nii, excluding 0 values. This is the equivalent of fslstats with the -M option.
 
 # Requirements
 * python3.11+
