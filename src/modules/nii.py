@@ -21,7 +21,7 @@ def load_nii(input_file: str) -> np.ndarray:
     if data_array.ndim == 4:
         data_array = data_array[...,0] #get only first volume
     
-    return(data_array.mean())
+    return(data_array)
 
 def mean_nii(data_array: np.ndarray,
          omit_zeroes: bool) -> float:
