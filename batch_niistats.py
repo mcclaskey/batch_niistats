@@ -44,12 +44,15 @@ valid_files = {f for f in datalist['input_file'] if os.path.exists(f)}
 ##############################################################################
 # Loop through the rows in the csv, call fsl and add result to list
 ##############################################################################
+omit_zeroes = False
 with concurrent.futures.ThreadPoolExecutor() as executor:
     list_of_data = list(
         filter(
             None, 
             executor.map(
-                lambda nii_file: nii.compute_mean(nii_file, valid_files), 
+                lambda nii_file: nii.batch_niimean(nii_file, 
+                                                   omit_zeroes,
+                                                   valid_files),
                 datalist['input_file'])
                 )
         )

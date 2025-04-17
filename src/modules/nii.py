@@ -36,7 +36,7 @@ def mean_nii(data_array: np.ndarray,
     
     return value
 
-def compute_mean_omitzeroes(nii_file: list[str],
+def batch_niimean(nii_file: list[str],
                             omit_zeros: bool,
                             valid_files: list[str]) -> dict[str, float]:
     
