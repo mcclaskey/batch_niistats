@@ -27,4 +27,4 @@ If you have and an established system for managing environments (such as conda o
 1. create/activate a project environment
 2. cd to where you store repos and clone this repo, e.g. `git clone https://github.com/mcclaskey/batch_niistats.git`
 3. cd to repo directory
-4. run `pip install -r requirements.txt` to install required packages
+4. run `pip3 install -r requirements.txt` to install required packages
