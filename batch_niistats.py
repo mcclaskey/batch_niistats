@@ -1,71 +1,80 @@
 #!/usr/bin/env python
 # -*- coding : utf-8 -*-
 
-"""
-Script to calculate the mean value of a set of .nii and returns a .csv
-file with the output values. The mean value of each .nii is calculated
-across all nonzero voxels in the image.
+import sys
 
-This function prompts the user for the csv file that contains input 
-.nii files (which was used in the bash script), and then compiles the 
-output into a csv file. 
+def batch_niistats(omit_zeros: bool):
+	"""
+	Function to calculate the mean value of a set of .nii and returns a .csv
+	file with the output values. The mean value of each .nii is calculated
+	across all nonzero voxels in the image.
 
-For details & issues, see https://github.com/mcclaskey/batch_niistats.
+	This function prompts the user for the csv file that contains input 
+	.nii files (which was used in the bash script), and then compiles the 
+	output into a csv file. 
 
-CMcC 4.9.2025
-"""
+	For details & issues, see https://github.com/mcclaskey/batch_niistats.
 
-##############################################################################
-#Import modules, packages, and the datalist
-##############################################################################
+	CMcC 4.9.2025
+	"""
 
-import src.modules.utilities as utilities
-import src.modules.nii as nii
-import os
-import pandas as pd
-import datetime
-import concurrent.futures
+	##############################################################################
+	#Import modules, packages, and the datalist
+	##############################################################################
 
-##############################################################################
-# start with basic info: ask user for csv, report, check files
-##############################################################################
+	import src.modules.utilities as utilities
+	import src.modules.nii as nii
+	import os
+	import pandas as pd
+	import datetime
+	import concurrent.futures
 
-# ask for datalist (csv, first row must be "input_file")
-datalist_filepath = utilities.askfordatalist()
+	##############################################################################
+	# start with basic info: ask user for csv, report, check files
+	##############################################################################
 
-# print info for user reference
-timestamp_here = datetime.datetime.now().strftime("%Y.%m.%d %H:%M:%S")
-print(f"[{timestamp_here}] batch_niistats.py.\n\nCompiling .csv file with "
-      f"mean values of .nii files listed in:\n{datalist_filepath}")
+	# ask for datalist (csv, first row must be "input_file")
+	datalist_filepath = utilities.askfordatalist()
 
-# read it and check for missing files
-datalist = pd.read_csv(datalist_filepath)
-valid_files = {f for f in datalist['input_file'] if os.path.exists(f)}
+	# print info for user reference
+	timestamp_here = datetime.datetime.now().strftime("%Y.%m.%d %H:%M:%S")
+	print(f"[{timestamp_here}] batch_niistats.py.\n\nCompiling .csv file with "
+		f"mean values of .nii files listed in:\n{datalist_filepath}")
 
-##############################################################################
-# Loop through the rows in the csv, call batch_niimean and add result to list
-##############################################################################
-omit_zeroes = True
-print(f'omit_zeroes flag: {omit_zeroes}')
-with concurrent.futures.ThreadPoolExecutor() as executor:
-    list_of_data = list(
-        filter(
-            None, 
-            executor.map(
-                lambda nii_file: nii.batch_niimean(nii_file, 
-                                                   omit_zeroes,
-                                                   valid_files),
-                datalist['input_file'])
-                )
-        )
-    
-##############################################################################
-# create dataframe, show to user, save to csv, end program
-##############################################################################
-combined_df = pd.DataFrame(list_of_data)
-print(combined_df)
-utilities.save_output_csv(combined_df,datalist_filepath)
+	# read it and check for missing files
+	datalist = pd.read_csv(datalist_filepath)
+	valid_files = {f for f in datalist['input_file'] if os.path.exists(f)}
+
+	##############################################################################
+	# Loop through the rows in the csv, call batch_niimean and add result to list
+	##############################################################################
+	with concurrent.futures.ThreadPoolExecutor() as executor:
+		list_of_data = list(
+			filter(
+				None, 
+				executor.map(
+					lambda nii_file: nii.batch_niimean(nii_file, 
+													omit_zeros,
+													valid_files),
+					datalist['input_file'])
+					)
+			)
+		
+	##############################################################################
+	# create dataframe, show to user, save to csv, end program
+	##############################################################################
+	combined_df = pd.DataFrame(list_of_data)
+	print(combined_df)
+	utilities.save_output_csv(combined_df,datalist_filepath)
 
 
 if __name__ == "__main__":
-    batch_niistats()
+	if len(sys.argv) < 1:
+		omit_zeros = True
+	else:
+		if sys.argv[1] == "-M":
+			omit_zeros = True
+		elif sys.argv[1] == "-m":
+			omit_zeros = False
+
+	batch_niistats(omit_zeros)
