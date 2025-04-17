@@ -34,8 +34,8 @@ datalist_filepath = utilities.askfordatalist()
 
 # print info for user reference
 timestamp_here = datetime.datetime.now().strftime("%Y.%m.%d %H:%M:%S")
-print(f"[{timestamp_here}] compile_fsl_data.py.\n\nCompiling .csv file with "
-      f"fslstats -M values of .nii files listed in:\n{datalist_filepath}")
+print(f"[{timestamp_here}] batch_niistats.py.\n\nCompiling .csv file with "
+      f"mean values of .nii files listed in:\n{datalist_filepath}")
 
 # read it and check for missing files
 datalist = pd.read_csv(datalist_filepath)
@@ -45,6 +45,7 @@ valid_files = {f for f in datalist['input_file'] if os.path.exists(f)}
 # Loop through the rows in the csv, call fsl and add result to list
 ##############################################################################
 omit_zeroes = True
+print(f'omit_zeroes flag: {omit_zeroes}')
 with concurrent.futures.ThreadPoolExecutor() as executor:
     list_of_data = list(
         filter(
