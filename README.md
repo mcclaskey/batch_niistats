@@ -23,7 +23,7 @@ A file selection dialogue box will now open. Select the .csv file you created in
 When it is done you will have a .csv file in the same directory as the input .csv file. The output file's name will be be the same as the input filename but will have a timestamp and the suffix '*_compiled'.
 
 # Setup (Advanced Users)
-If you have and an established system for managing environments (such as conda or virtualenvwrapper), no special setup is needed: 
+If you have an established system for managing environments (such as conda or virtualenvwrapper), no special setup is needed: 
 1. create/activate a project environment
 2. cd to where you store repos and clone this repo, e.g. `git clone https://github.com/mcclaskey/batch_niistats.git`
 3. cd to repo directory
