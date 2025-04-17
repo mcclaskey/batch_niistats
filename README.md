@@ -20,7 +20,7 @@ Open a terminal and activate your project environment and cd to the project dire
 ```
 python3 batch_niistats.py [option]
 ```
-where [option] is either -M or -m. -M will calculate the mean of all nonzero voxels for each nifti file. -m will calculate the mean value of all voxels in each image, including 0 voxels. If you omit an option, the program will default to -M. 
+where [option] is either `-M` or `-m`. `-M` will calculate the mean of all nonzero voxels for each nifti file. `-m` will calculate the mean value of all voxels in each image, including 0 voxels. If you omit an option, the program will default to `-M`. 
 
 For example, to calculate mean across all nonzero voxels, type:
 
