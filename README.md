@@ -14,9 +14,8 @@ Put together a list of your .nii files and save this list as a single-column .cs
 
 ## 2. Run scripts 
 
-Open a terminal and run the following 2 lines:
+Open a terminal and activate your project environment, then run the following 2 lines:
 ```
-workon batch_fslstats_env
 python3 batch_niistats.py
 ```
 A file selection dialogue box will now open. Select the .csv file you created in step 1 and press ok. Wait while the program runs.
