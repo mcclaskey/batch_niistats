@@ -2,6 +2,7 @@
 # -*- coding : utf-8 -*-
 
 import sys
+import src.modules.utilities as utilities
 
 def batch_niistats(omit_zeros: bool):
 	"""
@@ -22,7 +23,6 @@ def batch_niistats(omit_zeros: bool):
 	#Import modules, packages, and the datalist
 	##############################################################################
 
-	import src.modules.utilities as utilities
 	import src.modules.nii as nii
 	import os
 	import pandas as pd
@@ -70,11 +70,14 @@ def batch_niistats(omit_zeros: bool):
 
 if __name__ == "__main__":
 	if len(sys.argv) == 1:
-		omit_zeros = True
+		utilities.report_usage()
 	else:
 		if sys.argv[1] == "-M":
 			omit_zeros = True
 		elif sys.argv[1] == "-m":
 			omit_zeros = False
-
-	batch_niistats(omit_zeros)
+		elif sys.argv[1] == "[option]":
+			utilities.report_usage()
+	
+	if 'omit_zeros' in locals():
+		batch_niistats(omit_zeros)

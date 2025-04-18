@@ -24,6 +24,18 @@ def askfordatalist(*args) -> str:
   datalist_filepath = filedialog.askopenfilename()
   return datalist_filepath
 
+def report_usage(*args) -> str:
+   """ Defines the text used to repor usage to the user
+   
+   """
+   usage_text = ("\nUsage: python batch_niistats.py [option]\n\n"
+				"Options:\n\n-M: output mean (for nonzero voxels only)\n"
+				"-m: output mean (for all voxels in image)\n\nYou will then "
+				"be prompted for a list of .nii files to process.\nThis list "
+				"must be a single-column csv file where the first row\nsays "
+				"'input_file' and the subsequent rows are absolute paths\nto "
+				"each file.")
+   print(usage_text.format())
 
 def save_output_csv(output_df: pd.DataFrame, 
                     datalist_filepath: str):
