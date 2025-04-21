@@ -40,8 +40,9 @@ def batch_niistats(input_arg: str):
 
 	# print info for user reference
 	timestamp = utilities.get_timestamp()
-	print(f"[{timestamp_here}] batch_niistats.py.\n\nCompiling .csv file with "
-		f"mean values of .nii files listed in:\n{datalist_filepath}")
+	print(f"[{timestamp}] batch_niistats.py\n\nCompiling .csv file with "
+		f"{inputs["statistic"]} values of .nii files listed in:\n"
+		f"{datalist_filepath}\n")
 
 	# read it and check for missing files
 	datalist = pd.read_csv(datalist_filepath)
