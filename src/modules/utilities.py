@@ -52,18 +52,79 @@ def askfordatalist(*args) -> str:
   root.withdraw()
   datalist_filepath = filedialog.askopenfilename()
   return datalist_filepath
+def comma_split(input_spm_path: str) -> Dict[str, Optional[int]]:
+	"""Splits a path by comma (SPM-style) and extracts the volume index (0-based).
+	
+	"""
+	parts = input_spm_path.split(',')
+	if len(parts) == 1:
+		volume_index  = None
+	else:
+		volume_index  = int(parts[1]) - 1
+
+	return {'input_file': parts[0],'volume_spm_0basedindex': volume_index }
+
+def parse_spmsyntax(datalist: pd.DataFrame) -> pd.DataFrame:
+	"""
+	Handles SPM-style volume syntax in 'input_file' column.
+
+    Splits the filename and extracts volume, then merges with original DataFrame.
+    """
+
+	list_of_spmsplit = list(map(comma_split,datalist['input_file']))
+	df_of_spmsplits = pd.DataFrame(list_of_spmsplit)
+
+	other_cols = datalist.drop(columns=['input_file'], errors='ignore')
+	return pd.concat([df_of_spmsplits, other_cols], axis=1)
+
+def prioritize_volume(datalist):
+	"""
+    Resolves the volume to load when there are conflicting or missing values.
+
+    Preference order: explicit volume column > SPM syntax > default to volume 1.
+    """
+	
+	# temp var
+	datalist['volume'] = None	
+	
+	# uses matching volume
+	matches = datalist['volume_spm_0basedindex'] == datalist['volume_0basedindex']
+	datalist.loc[matches,'volume'] = datalist.loc[matches,'volume_0basedindex']
+
+	# if conflicts, preferentially read from user created column 'volume_0basedindex'
+	user_vol = ~np.isnan(datalist.loc[~matches, 'volume_0basedindex'])
+	datalist.loc[~matches & user_vol, 'volume'] = datalist.loc[~matches & user_vol, 'volume_0basedindex']
+
+	# otherwise read from spm
+	spm_vol = ~np.isnan(datalist.loc[~matches,'volume_spm_0basedindex'])
+	datalist.loc[~matches & spm_vol ,'volume'] = datalist.loc[~matches & spm_vol ,'volume_spm_0basedindex']
+
+	# if missing, assume first volume
+	datalist.loc[datalist['volume'].isna(), 'volume'] = 0  # default to first volume
+	datalist['volume_0basedindex'] = datalist['volume'].astype(int)
+	return datalist.drop(columns=['volume_spm_0basedindex', 'volume'], errors='ignore')
+
+
 def load_datalist(datalist_filepath: str) -> pd.DataFrame:
 
 	"""
     Loads a CSV file containing paths to .nii files and optional volume indices.
 
+    Handles SPM-style syntax and fills in missing volume data.
     """
 	datalist = pd.read_csv(datalist_filepath)
 
-	if 'volume_0basedindex' not in datalist.columns:
-		datalist['volume_0basedindex'] = 0
+	# now check for SPM volume syntax
+	if datalist['input_file'].astype(str).str.contains(',').any():
+		datalist = parse_spmsyntax(datalist)
+	else:
+		datalist['volume_spm_0basedindex'] = None
 
-	return datalist
+	if 'volume_0basedindex' not in datalist.columns:
+		datalist['volume_0basedindex'] = None
+
+	return prioritize_volume(datalist)
+
 def report_usage(*args) -> str:
    """ Defines the text used to repor usage to the user
    
