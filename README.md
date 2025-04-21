@@ -11,10 +11,7 @@ Statistics (mean/standard deviation) can be calculated for all voxels in the .ni
 ## 1. Create a list of .nii files
 Put together a list of your .nii files and save this list as a .csv file where the header row says "input_file" and each subsequent row contains the full path to a .nii file. 
 
-These functions currently only support 3D .nii files, so only the 1st volume of each file will be read.
-
-> [!IMPORTANT]
-> The first row of the .csv must say "input_file"
+If your files are 4D files and you would like to read a volume other than the first, also include a column called "volume_0basedindexing" that specifies which volume to read using 0-based indexing (e.g. use 0 to specify the first volume, 1 for the second, etc). If "volume_0basedindexing" is omitted, then the first volume of all .nii files will be used.
 
 ## 2. Run scripts 
 

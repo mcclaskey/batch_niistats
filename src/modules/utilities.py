@@ -52,7 +52,18 @@ def askfordatalist(*args) -> str:
   root.withdraw()
   datalist_filepath = filedialog.askopenfilename()
   return datalist_filepath
+def load_datalist(datalist_filepath: str) -> pd.DataFrame:
 
+	"""
+    Loads a CSV file containing paths to .nii files and optional volume indices.
+
+    """
+	datalist = pd.read_csv(datalist_filepath)
+
+	if 'volume_0basedindex' not in datalist.columns:
+		datalist['volume_0basedindex'] = 0
+
+	return datalist
 def report_usage(*args) -> str:
    """ Defines the text used to repor usage to the user
    

@@ -47,7 +47,7 @@ def batch_niistats(input_arg: str):
 		f"{datalist_filepath}\n")
 
 	# read it and check for missing files
-	datalist = pd.read_csv(datalist_filepath)
+	datalist = utilities.load_datalist(datalist_filepath)
 	valid_files = {f for f in datalist['input_file'] if os.path.exists(f)}
 
 	##########################################################################
