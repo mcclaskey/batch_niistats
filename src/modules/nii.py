@@ -76,7 +76,7 @@ def single_nii_calc(nii_file: list[str],
         nii_array = load_nii(nii_file)
 
         if inputs["statistic"] == 'mean':
-             output_val = mean_nii(nii_array, inputs["omit_zeros"])
+            output_val = mean_nii(nii_array, inputs["omit_zeros"])
         elif inputs["statistic"] == 'sd':
             output_val = sd_nii(nii_array, inputs["omit_zeros"])
             

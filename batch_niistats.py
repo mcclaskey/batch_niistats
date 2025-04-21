@@ -28,7 +28,6 @@ def batch_niistats(input_arg: str):
 	import src.modules.nii as nii
 	import os
 	import pandas as pd
-	import datetime
 	import concurrent.futures
 
 	##########################################################################
