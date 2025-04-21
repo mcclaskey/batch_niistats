@@ -3,7 +3,11 @@
 
 """
     Functions for basic utilities, such as path lookups and reading 
-    input files
+    input files.
+		
+	Part of batch_niistats package.
+
+	CMcC 4/21/2025 github: https://github.com/mcclaskey/batch_niistats. 
 
 """
 
@@ -20,6 +24,12 @@ def get_timestamp(*args) -> str:
 	return datetime.datetime.now().strftime("%Y.%m.%d %H:%M:%S")
 
 def parse_inputs(input_arg: str) -> dict[bool,str]:
+	"""Parses user-provided input option
+	
+	Reads the user-provided option and defines the statistic
+	and whether to use all voxels or only non-zero voxels, 
+	then returns this as a dict
+	"""
 	if input_arg == "-M":
 		inputs = {'omit_zeros': True, 'statistic': 'mean'}
 	elif input_arg == "-m":

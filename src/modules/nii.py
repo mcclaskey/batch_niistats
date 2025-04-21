@@ -3,6 +3,10 @@
 
 """
     Wrapper functions for nii nibabel functions. Add as needed.
+    
+    Part of batch_niistats package.
+
+	CMcC 4/21/2025 github: https://github.com/mcclaskey/batch_niistats. 
 """
 
 import nibabel as nb
@@ -51,9 +55,9 @@ def single_nii_calc(nii_file: list[str],
                             inputs: dict[bool,str],
                             valid_files: list[str]) -> dict[str, float]:
     
-    """Calls nibabel_mean for a single file, to be used with map
+    """Calculate statistics for a single .nii file, to be used with map
     
-    This function calls the mean/sd function for a single .nii file and
+    This function calls the mean/sd functions for a single .nii file and
     returns the output as a dictionary which can be added to a list
     or combined with map().
     

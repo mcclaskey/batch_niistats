@@ -7,9 +7,10 @@ import src.modules.utilities as utilities
 def batch_niistats(input_arg: str):
 	"""
 	Function to calculate statistics for a set of nifti iamges and save a 
-	.csv file with the output. The statistics to be calculated, and 
+	.csv file with the output. Which statistic to be calculated, and 
 	whether all voxels or only nonzero voxels are included, is specified
-	via input_arg.
+	via input_arg. Supported inputs are -S, -s, -M, -m and follow FSL's
+	conventions for input options.
 
 	This function prompts the user for the csv file that contains input 
 	.nii files (which was used in the bash script), and then compiles the 
