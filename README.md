@@ -9,7 +9,9 @@ Statistics (mean/standard deviation) can be calculated for all voxels in the .ni
 # Instructions
 
 ## 1. Create a list of .nii files
-Put together a list of your .nii files and save this list as a .csv file where the header row says "input_file" and each subsequent row contains the full file path to a .nii file. Each .nii file will have its average value calculated. These functions currently only support 3D .nii files, so only the 1st volume of each file will be read.
+Put together a list of your .nii files and save this list as a .csv file where the header row says "input_file" and each subsequent row contains the full path to a .nii file. 
+
+These functions currently only support 3D .nii files, so only the 1st volume of each file will be read.
 
 > [!IMPORTANT]
 > The first row of the .csv must say "input_file"
