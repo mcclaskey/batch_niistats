@@ -58,11 +58,8 @@ def batch_niistats(input_arg: str):
 			filter(
 				None, 
 				executor.map(
-					lambda nii_file: nii.single_nii_calc(nii_file, 
-													inputs,
-													valid_files),
-					datalist['input_file'])
-					)
+					lambda args: nii.try_single_nii_calc(args[0],args[1],inputs,valid_files),
+					zip(datalist['input_file'],datalist['volume_0basedindex'])
 			)
 		
 	##########################################################################
