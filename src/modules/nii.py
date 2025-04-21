@@ -35,6 +35,18 @@ def mean_nii(data_array: np.ndarray,
     
     return value
 
+def sd_nii(data_array: np.ndarray,
+         omit_zeros: bool) -> float:
+    """Calculates sd of a data array
+    
+    """
+    if omit_zeros:
+        value = data_array[data_array > 0].std()
+    else:
+        value = data_array.std()
+    
+    return value
+
 def batch_niimean(nii_file: list[str],
                             omit_zeros: bool,
                             valid_files: list[str]) -> dict[str, float]:
