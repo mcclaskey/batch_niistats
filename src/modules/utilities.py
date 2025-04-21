@@ -51,20 +51,26 @@ def report_usage(*args) -> str:
    print(usage_text.format())
 
 def save_output_csv(output_df: pd.DataFrame, 
-                    datalist_filepath: str):
+                    datalist_filepath: str,
+                    statistic: str,
+					timestamp: str):
     
     """Saves data to csv file in same directory as input, with 
     timestamp
     
     """
-    
+	
+	# format statistic and timestamp for output file
+    timestamp_dt = datetime.datetime.strptime(timestamp,"%Y.%m.%d %H:%M:%S")
+    timestamp_file = timestamp_dt.strftime("%Y%m%d_%H%M%S")
+    statistic = statistic.replace('-','')
+
     # get output dir
     output_dir = os.path.dirname(datalist_filepath)
     
 	# get output filename
-    timestamp_file = datetime.datetime.now().strftime("%Y%m%d_%H%M%S")
     datalist_fname = os.path.basename(datalist_filepath)
-    datalist_fname = datalist_fname.replace('.csv','_compiled.csv')
+    datalist_fname = datalist_fname.replace('.csv',f'_calc_{statistic}.csv')
     output_fname = f"{timestamp_file}_{datalist_fname}"
     
 	# save to file

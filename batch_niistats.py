@@ -67,7 +67,10 @@ def batch_niistats(input_arg: str):
 	##############################################################################
 	combined_df = pd.DataFrame(list_of_data)
 	print(combined_df)
-	utilities.save_output_csv(combined_df,datalist_filepath)
+	utilities.save_output_csv(combined_df,
+							datalist_filepath,
+							input_arg,
+							timestamp)
 
 
 if __name__ == "__main__":
