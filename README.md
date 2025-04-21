@@ -1,7 +1,7 @@
 # batch_niistats
-Small set of functions that take a list of 2D nifti files and return a .csv file that contains the mean value of each image. Pure python code that works very quickly on all operating systems.
+Small set of functions that calculate statistics on a batch of 3D nifti files and return the output as a .csv file. Pure python code that works very quickly on all operating systems.
 
-The mean value of each .nii file can be calculated for all voxels in the .nii, or for all nonzero voxels. This is the equivalent of fslstats with the -M option or -m option, respectively.
+Statistics (mean/standard deviation) can be calculated for all voxels in the .nii, or for only nonzero voxels. This is the equivalent of fslstats with the -M/-S option or -m/-s option, respectively.
 
 # Requirements
 * python3.11+
@@ -9,7 +9,7 @@ The mean value of each .nii file can be calculated for all voxels in the .nii, o
 # Instructions
 
 ## 1. Create a list of .nii files
-Put together a list of your .nii files and save this list as a single-column .csv file where the first row says "input_file" and each subsequent row contains the full file path to a .nii file. Each .nii file will have its average value calculated.
+Put together a list of your .nii files and save this list as a .csv file where the header row says "input_file" and each subsequent row contains the full file path to a .nii file. Each .nii file will have its average value calculated. These functions currently only support 3D .nii files, so only the 1st volume of each file will be read.
 
 > [!IMPORTANT]
 > The first row of the .csv must say "input_file"
