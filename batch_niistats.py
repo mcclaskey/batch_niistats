@@ -39,7 +39,7 @@ def batch_niistats(input_arg: str):
 	datalist_filepath = utilities.askfordatalist()
 
 	# print info for user reference
-	timestamp_here = datetime.datetime.now().strftime("%Y.%m.%d %H:%M:%S")
+	timestamp = utilities.get_timestamp()
 	print(f"[{timestamp_here}] batch_niistats.py.\n\nCompiling .csv file with "
 		f"mean values of .nii files listed in:\n{datalist_filepath}")
 

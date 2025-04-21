@@ -13,6 +13,12 @@ import pandas as pd
 import datetime
 import os
 
+def get_timestamp(*args) -> str:
+	"""Gets a timestamp at the start, which is used for labeling and reporting
+	
+	"""
+	return datetime.datetime.now().strftime("%Y.%m.%d %H:%M:%S")
+
 def parse_inputs(input_arg: str) -> dict[bool,str]:
 	if input_arg == "-M":
 		inputs = {'omit_zeros': True, 'statistic': 'mean'}
