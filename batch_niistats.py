@@ -4,7 +4,7 @@
 import sys
 import src.modules.utilities as utilities
 
-def batch_niistats(omit_zeros: bool):
+def batch_niistats(input_arg: str):
 	"""
 	Function to calculate the mean value of a set of .nii and returns a .csv
 	file with the output values. The mean value of each .nii is calculated
@@ -32,6 +32,8 @@ def batch_niistats(omit_zeros: bool):
 	##############################################################################
 	# start with basic info: ask user for csv, report, check files
 	##############################################################################
+	# parse inputs
+	inputs = utilities.parse_inputs(input_arg)
 
 	# ask for datalist (csv, first row must be "input_file")
 	datalist_filepath = utilities.askfordatalist()
@@ -53,8 +55,8 @@ def batch_niistats(omit_zeros: bool):
 			filter(
 				None, 
 				executor.map(
-					lambda nii_file: nii.batch_niimean(nii_file, 
-													omit_zeros,
+					lambda nii_file: nii.single_nii_calc(nii_file, 
+													inputs,
 													valid_files),
 					datalist['input_file'])
 					)
@@ -69,15 +71,12 @@ def batch_niistats(omit_zeros: bool):
 
 
 if __name__ == "__main__":
+	supported_inputs = ["-M","-m","-S","-s"]
+	
 	if len(sys.argv) == 1:
 		utilities.report_usage()
 	else:
-		if sys.argv[1] == "-M":
-			omit_zeros = True
-		elif sys.argv[1] == "-m":
-			omit_zeros = False
-		elif sys.argv[1] == "[option]":
+		if sys.argv[1] in supported_inputs:
+			batch_niistats(sys.argv[1])
+		else:
 			utilities.report_usage()
-	
-	if 'omit_zeros' in locals():
-		batch_niistats(omit_zeros)

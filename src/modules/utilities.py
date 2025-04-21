@@ -13,6 +13,19 @@ import pandas as pd
 import datetime
 import os
 
+def parse_inputs(input_arg: str) -> dict[bool,str]:
+	if input_arg == "-M":
+		inputs = {'omit_zeros': True, 'statistic': 'mean'}
+	elif input_arg == "-m":
+		inputs = {'omit_zeros': False, 'statistic': 'mean'}
+	elif input_arg == "-S":
+		inputs = {'omit_zeros': True, 'statistic': 'sd'}
+	elif input_arg == "-s":
+		inputs = {'omit_zeros': False, 'statistic': 'sd'}
+
+	return(inputs)
+
+
 def askfordatalist(*args) -> str:
   """Asks user for data list file
 
