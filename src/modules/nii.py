@@ -2,7 +2,7 @@
 # -*- coding : utf-8 -*-
 
 """
-    Wrapper functions for nii nibabel functions. Add as needed.
+    Functions that manipulate or handle .nii files. Coded using nibabel.
     
     Part of batch_niistats package.
 
