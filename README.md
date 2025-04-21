@@ -20,7 +20,11 @@ Open a terminal and activate your project environment and cd to the project dire
 ```
 python3 batch_niistats.py [option]
 ```
-where [option] is either `-M` or `-m`. `-M` will calculate the mean of all nonzero voxels for each nifti file. `-m` will calculate the mean value of all voxels in each image, including 0 voxels. If you omit an option, the program will default to `-M`. 
+where [option] indicates which statistics to output for each .nii image, and must be one of: 
+- `-M`: calculate the mean of all nonzero voxels
+- `-m`: calculate the mean value of all voxels
+- `-S`: calculate the standard deviation of all nonzero voxels
+- `-s`: calculate the standard deviation of all voxels
 
 For example, to calculate mean across all nonzero voxels, type:
 
@@ -30,7 +34,7 @@ python3 batch_niistats.py -M
 
 The program will start by opening a file selection dialogue box. Select the .csv file you created in step 1 and press ok. Wait while the program runs.
 
-When it is done you will have a .csv file in the same directory as the input .csv file. The output file's name will be be the same as the input file's name but will have a timestamp and the suffix '*_compiled'. 
+When it is done you will have a .csv file in the same directory as the input .csv file. The output file's name will be be the same as the input file's name but will have a timestamp and the suffix that indicates the option specified as input. 
 
 # Setup 
 1. create/activate a project environment

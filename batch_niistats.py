@@ -6,9 +6,10 @@ import src.modules.utilities as utilities
 
 def batch_niistats(input_arg: str):
 	"""
-	Function to calculate the mean value of a set of .nii and returns a .csv
-	file with the output values. The mean value of each .nii is calculated
-	across all nonzero voxels in the image.
+	Function to calculate statistics for a set of nifti iamges and save a 
+	.csv file with the output. The statistics to be calculated, and 
+	whether all voxels or only nonzero voxels are included, is specified
+	via input_arg.
 
 	This function prompts the user for the csv file that contains input 
 	.nii files (which was used in the bash script), and then compiles the 
@@ -19,9 +20,9 @@ def batch_niistats(input_arg: str):
 	CMcC 4.9.2025
 	"""
 
-	##############################################################################
-	#Import modules, packages, and the datalist
-	##############################################################################
+	##########################################################################
+	# Import modules, packages, and the datalist
+	##########################################################################
 
 	import src.modules.nii as nii
 	import os
@@ -29,9 +30,10 @@ def batch_niistats(input_arg: str):
 	import datetime
 	import concurrent.futures
 
-	##############################################################################
+	##########################################################################
 	# start with basic info: ask user for csv, report, check files
-	##############################################################################
+	##########################################################################
+
 	# parse inputs
 	inputs = utilities.parse_inputs(input_arg)
 
@@ -48,9 +50,9 @@ def batch_niistats(input_arg: str):
 	datalist = pd.read_csv(datalist_filepath)
 	valid_files = {f for f in datalist['input_file'] if os.path.exists(f)}
 
-	##############################################################################
-	# Loop through the rows in the csv, call batch_niimean and add result to list
-	##############################################################################
+	##########################################################################
+	# Loop across rows in csv, call single_nii_calc, add result to list
+	##########################################################################
 	with concurrent.futures.ThreadPoolExecutor() as executor:
 		list_of_data = list(
 			filter(
@@ -63,9 +65,9 @@ def batch_niistats(input_arg: str):
 					)
 			)
 		
-	##############################################################################
+	##########################################################################
 	# create dataframe, show to user, save to csv, end program
-	##############################################################################
+	##########################################################################
 	combined_df = pd.DataFrame(list_of_data)
 	print(combined_df)
 	utilities.save_output_csv(combined_df,
