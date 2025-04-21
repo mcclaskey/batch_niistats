@@ -3,7 +3,11 @@
 
 """
     Functions for basic utilities, such as path lookups and reading 
-    input files
+    input files.
+		
+	Part of batch_niistats package.
+
+	CMcC 4/21/2025 github: https://github.com/mcclaskey/batch_niistats. 
 
 """
 
@@ -12,6 +16,31 @@ from tkinter import filedialog
 import pandas as pd
 import datetime
 import os
+
+def get_timestamp(*args) -> str:
+	"""Gets a timestamp at the start, which is used for labeling and reporting
+	
+	"""
+	return datetime.datetime.now().strftime("%Y.%m.%d %H:%M:%S")
+
+def parse_inputs(input_arg: str) -> dict[bool,str]:
+	"""Parses user-provided input option
+	
+	Reads the user-provided option and defines the statistic
+	and whether to use all voxels or only non-zero voxels, 
+	then returns this as a dict
+	"""
+	if input_arg == "-M":
+		inputs = {'omit_zeros': True, 'statistic': 'mean'}
+	elif input_arg == "-m":
+		inputs = {'omit_zeros': False, 'statistic': 'mean'}
+	elif input_arg == "-S":
+		inputs = {'omit_zeros': True, 'statistic': 'sd'}
+	elif input_arg == "-s":
+		inputs = {'omit_zeros': False, 'statistic': 'sd'}
+
+	return(inputs)
+
 
 def askfordatalist(*args) -> str:
   """Asks user for data list file
@@ -38,20 +67,26 @@ def report_usage(*args) -> str:
    print(usage_text.format())
 
 def save_output_csv(output_df: pd.DataFrame, 
-                    datalist_filepath: str):
+                    datalist_filepath: str,
+                    statistic: str,
+					timestamp: str):
     
     """Saves data to csv file in same directory as input, with 
     timestamp
     
     """
-    
+	
+	# format statistic and timestamp for output file
+    timestamp_dt = datetime.datetime.strptime(timestamp,"%Y.%m.%d %H:%M:%S")
+    timestamp_file = timestamp_dt.strftime("%Y%m%d_%H%M%S")
+    statistic = statistic.replace('-','')
+
     # get output dir
     output_dir = os.path.dirname(datalist_filepath)
     
 	# get output filename
-    timestamp_file = datetime.datetime.now().strftime("%Y%m%d_%H%M%S")
     datalist_fname = os.path.basename(datalist_filepath)
-    datalist_fname = datalist_fname.replace('.csv','_compiled.csv')
+    datalist_fname = datalist_fname.replace('.csv',f'_calc_{statistic}.csv')
     output_fname = f"{timestamp_file}_{datalist_fname}"
     
 	# save to file

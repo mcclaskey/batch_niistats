@@ -2,7 +2,11 @@
 # -*- coding : utf-8 -*-
 
 """
-    Wrapper functions for nii nibabel functions. Add as needed.
+    Functions that manipulate or handle .nii files. Coded using nibabel.
+    
+    Part of batch_niistats package.
+
+	CMcC 4/21/2025 github: https://github.com/mcclaskey/batch_niistats. 
 """
 
 import nibabel as nb
@@ -35,27 +39,49 @@ def mean_nii(data_array: np.ndarray,
     
     return value
 
-def batch_niimean(nii_file: list[str],
-                            omit_zeros: bool,
+def sd_nii(data_array: np.ndarray,
+         omit_zeros: bool) -> float:
+    """Calculates sd of a data array
+    
+    """
+    if omit_zeros:
+        value = data_array[data_array > 0].std()
+    else:
+        value = data_array.std()
+    
+    return value
+
+def single_nii_calc(nii_file: list[str],
+                            inputs: dict[bool,str],
                             valid_files: list[str]) -> dict[str, float]:
     
-    """Calls nibabel_mean for a single file, to be used with map
+    """Calculate statistics for a single .nii file, to be used with map
     
-    This function calls mean_omitzeroes for a single .nii file and
+    This function calls the mean/sd functions for a single .nii file and
     returns the output as a dictionary which can be added to a list
     or combined with map().
     
     """
-    if omit_zeros:
-        omit_flag = 'mean of nonzero voxels'
-    else:
-        omit_flag = 'mean of all voxels'
+    
+	# define label for output var (used as column header)
+    if inputs["omit_zeros"]:
+        omit_flag = 'nonzero'
+    elif inputs["omit_zeros"]:
+        omit_flag = 'all'
+        
+    output_name = f"{inputs["statistic"]} of {omit_flag} voxels"
 
-    # Call mean() only if the file exists
+    # Run calculation only if the file exists
     if nii_file in valid_files:
         nii_array = load_nii(nii_file)
+
+        if inputs["statistic"] == 'mean':
+            output_val = mean_nii(nii_array, inputs["omit_zeros"])
+        elif inputs["statistic"] == 'sd':
+            output_val = sd_nii(nii_array, inputs["omit_zeros"])
+            
         return {'filename': nii_file, 
-                omit_flag: mean_nii(nii_array, omit_zeros)}
+                output_name: output_val}
     else:
         print(f"File not found: {nii_file}")
         return None
