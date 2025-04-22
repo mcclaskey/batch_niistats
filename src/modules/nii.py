@@ -11,7 +11,6 @@
 
 import nibabel as nb
 import numpy as np
-from typing import Optional, Union, Dict, Set
 
 def load_nii(input_file: str,
              nii_volume: int) -> np.ndarray:
@@ -56,9 +55,9 @@ def sd_nii(data_array: np.ndarray,
 
 def single_nii_calc(nii_file: str,
                     nii_volume: str,
-                    inputs: Dict[str, Union[bool, str]],
-                    valid_files: Set[str]
-                    ) -> Dict[str, Union[str, int, float]]:
+                    inputs: dict[str, bool | str],
+                    valid_files: set[str]
+                    ) -> dict[str, str | int | float]:
     
     """Calculate statistics for a single .nii file, to be used with map
     

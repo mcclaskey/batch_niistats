@@ -17,13 +17,13 @@ import pandas as pd
 import datetime
 import os
 
-def get_timestamp(*args) -> str:
+def get_timestamp() -> str:
 	"""Gets a timestamp at the start, which is used for labeling and reporting
 	
 	"""
 	return datetime.datetime.now().strftime("%Y.%m.%d %H:%M:%S")
 
-def parse_inputs(input_arg: str) -> dict[bool,str]:
+def parse_inputs(input_arg: str) -> dict[str, bool | str]:
 	"""Parses user-provided input option
 	
 	Reads the user-provided option and defines the statistic
@@ -42,7 +42,7 @@ def parse_inputs(input_arg: str) -> dict[bool,str]:
 	return(inputs)
 
 
-def askfordatalist(*args) -> str:
+def askfordatalist() -> str:
   """Asks user for data list file
 
   first row must say "input_file" and rest must be list of files
@@ -52,7 +52,7 @@ def askfordatalist(*args) -> str:
   root.withdraw()
   datalist_filepath = filedialog.askopenfilename()
   return datalist_filepath
-def comma_split(input_spm_path: str) -> Dict[str, Optional[int]]:
+def comma_split(input_spm_path: str) -> dict[str, int | None]:
 	"""Splits a path by comma (SPM-style) and extracts the volume index (0-based).
 	
 	"""
@@ -125,7 +125,7 @@ def load_datalist(datalist_filepath: str) -> pd.DataFrame:
 
 	return prioritize_volume(datalist)
 
-def report_usage(*args) -> str:
+def report_usage() -> str:
 	
 	"""
     Prints usage information to the terminal.
