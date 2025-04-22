@@ -11,13 +11,15 @@ Statistics (mean/standard deviation) can be calculated for all voxels in the .ni
 ## 1. Create a list of .nii files
 Put together a list of your .nii files and save this list as a .csv file where the header row says `input_file` and each subsequent row contains the full path to a .nii file. 
 
-If your files are 4D files and you would like to read a volume other than the first, also include a column called `volume_0basedindex` that specifies which volume to read using 0-based indexing (e.g. use 0 to specify the first volume, 1 for the second, etc). 0-based indexing is used in the style of python, nibabel, FSL, etc.
+If your files are 4D files and you would like to read a volume other than the first, also include a column called `volume_0basedindex` that specifies which volume to read using 0-based indexing (e.g. use 0 to specify the first volume, 1 for the second, etc). 0-based indexing is used in the style of python, nibabel, FSL, etc. To read multiple volumes/timepoints of a 4D .nii file, list each volume as a separate row in the input datalist.
 
-Alternately, you can specify the volume using syntax in the style of SPM, which uses 1-based indexing and writes the filename as: 
+Alternately, you can specify the volume using SPM-style syntax in the contents of the `input_file` column, as follows: 
 ```
 full\path\to\your.nii,V
 ```
-where V indicates the volume number using 1-based indexing, e.g. `path\to\my.nii,1` for the first volume of my.nii.
+where V indicates the volume number using 1-based indexing, e.g. `path\to\my.nii,1` for the first volume of my.nii. 
+
+Support for SPM syntax is intended to facilitate copying to and from SPM but is otherwise not recommended. If you define filenames in this way, omit single quotations at the start and end of each string that are sometimes retained during SPM copy/paste. `batch_niistats.py` will not strip single quotations from file paths because they could theoretically be part of the file name.
 
 If volumes are specified using both SPM syntax and using a `volume_0basedindex` column, the information in the `volume_0basedindex` column will be preferentially used. If no information is provided, the first volume of each image will be read.
 
