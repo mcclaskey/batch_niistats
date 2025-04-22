@@ -54,13 +54,11 @@ def batch_niistats(input_arg: str):
 	# Loop across rows in csv, call single_nii_calc, add result to list
 	##########################################################################
 	with concurrent.futures.ThreadPoolExecutor() as executor:
-		list_of_data = list(
-			filter(
-				None, 
-				executor.map(
-					lambda args: nii.single_nii_calc(args[0],args[1],inputs,valid_files),
-					zip(datalist['input_file'],datalist['volume_0basedindex'])
+		single_nii_results = executor.map(
+			lambda args: nii.single_nii_calc(args[0],args[1],inputs,valid_files),
+			zip(datalist['input_file'],datalist['volume_0basedindex'])
 			)
+		list_of_data = list(single_nii_results)
 		
 	##########################################################################
 	# create dataframe, show to user, save to csv, end program
