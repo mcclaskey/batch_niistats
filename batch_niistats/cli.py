@@ -1,13 +1,14 @@
 #!/usr/bin/env python
 # -*- coding : utf-8 -*-
 
-import sys
+import argparse
 from batch_niistats import nii, utils
 import os
 import pandas as pd
 import concurrent.futures
 
-def batch_niistats(input_arg: str):
+
+def batch_niistats():
 	"""Calculates statistics for batch of .nii files and saves .csv of output
 
 	Function to calculate statistics for a set of nifti iamges and save a 
@@ -26,11 +27,29 @@ def batch_niistats(input_arg: str):
 	"""
 
 	##########################################################################
+	# handle input arguments
+	##########################################################################
+	parser = argparse.ArgumentParser(
+        description="Calculate statistics from a list of .nii files."
+    )
+	parser.add_argument(
+        "option",
+        choices=["-M", "-m", "-S", "-s"],
+        help="Statistical option: -M (mean, nonzero), -m (mean, all), "
+             "-S (sd, nonzero), -s (sd, all)"
+    )
+
+	args = parser.parse_args()
+
+	##########################################################################
 	# start with basic info: ask user for csv, report, check files
 	##########################################################################
 
 	# parse inputs
 	inputs = utils.parse_inputs(args.option)
+	if not inputs:
+		utils.report_usage()
+		return
 
 	# ask for datalist (csv, first row must be "input_file")
 	datalist_filepath = utils.askfordatalist()
@@ -62,17 +81,9 @@ def batch_niistats(input_arg: str):
 	print(combined_df)
 	utils.save_output_csv(combined_df,
 							datalist_filepath,
-							input_arg,
+							args.option,
 							timestamp)
 
 
 if __name__ == "__main__":
-	supported_inputs = ["-M","-m","-S","-s"]
-	
-	if len(sys.argv) == 1:
-		utils.report_usage()
-	else:
-		if sys.argv[1] in supported_inputs:
-			batch_niistats(sys.argv[1])
-		else:
-			utils.report_usage()
+	batch_niistats()
