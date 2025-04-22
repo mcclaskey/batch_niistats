@@ -2,8 +2,8 @@
 # -*- coding : utf-8 -*-
 
 """
-    Functions for basic utilities, such as path lookups and reading 
-    input files.
+	Functions for basic utilities, such as path lookups and reading 
+	input files.
 		
 	Part of batch_niistats package.
 
@@ -43,15 +43,16 @@ def parse_inputs(input_arg: str) -> dict[str, bool | str]:
 
 
 def askfordatalist() -> str:
-  """Asks user for data list file
-
-  first row must say "input_file" and rest must be list of files
+  """Opens a file dialog to ask the user for the input CSV file path.
+	
+	First row must contain 'input_file'.
 
   """
   root = tk.Tk()
   root.withdraw()
-  datalist_filepath = filedialog.askopenfilename()
-  return datalist_filepath
+  return filedialog.askopenfilename()
+
+
 def comma_split(input_spm_path: str) -> dict[str, int | None]:
 	"""Splits a path by comma (SPM-style) and extracts the volume index (0-based).
 	
@@ -155,29 +156,23 @@ def report_usage() -> str:
 	print(usage_text.format())
 
 def save_output_csv(output_df: pd.DataFrame, 
-                    datalist_filepath: str,
-                    statistic: str,
+					datalist_filepath: str,
+					statistic: str,
 					timestamp: str):
-    
-    """Saves data to csv file in same directory as input, with 
-    timestamp
-    
+	
+	"""
+    Saves the result DataFrame to a timestamped CSV in the same directory.
+
+    File name includes the timestamp and statistic.
     """
 	
-	# format statistic and timestamp for output file
-    timestamp_dt = datetime.datetime.strptime(timestamp,"%Y.%m.%d %H:%M:%S")
-    timestamp_file = timestamp_dt.strftime("%Y%m%d_%H%M%S")
-    statistic = statistic.replace('-','')
+	timestamp_dt = datetime.datetime.strptime(timestamp,"%Y.%m.%d %H:%M:%S")
+	timestamp_file = timestamp_dt.strftime("%Y%m%d_%H%M%S")
+	statistic_clean = statistic.replace('-', '')
 
-    # get output dir
-    output_dir = os.path.dirname(datalist_filepath)
-    
-	# get output filename
-    datalist_fname = os.path.basename(datalist_filepath)
-    datalist_fname = datalist_fname.replace('.csv',f'_calc_{statistic}.csv')
-    output_fname = f"{timestamp_file}_{datalist_fname}"
-    
-	# save to file
-    output_csv_fullfile = os.path.join(output_dir,output_fname)
-    output_df.to_csv(output_csv_fullfile, index=False)
-    print(f"\nOutput saved to file:\n{output_csv_fullfile}\n")
+	output_dir = os.path.dirname(datalist_filepath)
+	base_name = os.path.basename(datalist_filepath).replace('.csv', f'_calc_{statistic_clean}.csv')
+	output_path = os.path.join(output_dir, f"{timestamp_file}_{base_name}")
+
+	output_df.to_csv(output_path, index=False)
+	print(f"\nOutput saved to file:\n{output_path}\n")
