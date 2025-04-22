@@ -1,0 +1,42 @@
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "batch_niistats"
+version = "0.1.0"
+description = "Batch calculator for .nii file statistics."
+readme = "README.md"
+requires-python = ">=3.11"
+license = { text = "MIT" }
+
+authors = [
+  { name = "CMcC", email = "carolyn.mcclaskey@gmail.com" }
+]
+
+dependencies = [
+  "numpy",
+  "pandas",
+  "nibabel"
+]
+
+classifiers = [
+  "Programming Language :: Python :: 3",
+  "License :: OSI Approved :: MIT License",
+  "Operating System :: OS Independent"
+]
+
+[project.urls]
+Homepage = "https://github.com/mcclaskey/batch_niistats"
+
+[project.scripts]
+batch_niistats = "batch_niistats.cli:main"
+
+[tool.entry_points]
+console_scripts = [
+    "batch_niistats=batch_niistats.cli:main",
+]
+
+[project.optional-dependencies]
+dev = ["pytest"]
+
