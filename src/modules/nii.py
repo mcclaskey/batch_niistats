@@ -11,17 +11,10 @@
 
 import nibabel as nb
 import numpy as np
-from typing import Optional, Union, Dict, Set
 
 def load_nii(input_file: str,
              nii_volume: int) -> np.ndarray:
-
-    """ Call nibabel to load a volume of .nii file
-
-    Load a volume from a .nii file using nibabel.
-    Returns a 3D NumPy array.
-
-    """
+    """Use nibabel to load a volume of .nii file, returns 3D NumPy array."""
     img_proxy = nb.load(input_file)
     data_array = np.asarray(img_proxy.get_fdata())
     
@@ -32,40 +25,47 @@ def load_nii(input_file: str,
 
 def mean_nii(data_array: np.ndarray,
          omit_zeros: bool) -> float:
-    """Calculates mean of a data array
+    """Calculate mean of a 3D NumPy array, return single number
     
+    If omit_zeros is True, only nonzero voxels are included in calculation.
     """
-    if omit_zeros:
-        value = data_array[data_array > 0].mean()
-    else:
-        value = data_array.mean()
     
-    return value
+    return data_array[data_array > 0].mean() if omit_zeros else data_array.mean()
 
 def sd_nii(data_array: np.ndarray,
          omit_zeros: bool) -> float:
-    """Calculates sd of a data array
+    """Calculate the standard deviation of a 3D NumPy array, return float
     
+    If omit_zeros is True, only nonzero voxels are included in sd calculation.    
     """
-    if omit_zeros:
-        value = data_array[data_array > 0].std()
-    else:
-        value = data_array.std()
     
-    return value
+    return data_array[data_array > 0].std() if omit_zeros else data_array.std()
+
+def try_single_nii_calc(nii_file: str,
+                         nii_volume: int,
+                         inputs: dict[str, bool | str],
+                         valid_files: set[str]
+						 ) -> dict[str, str | int | float] | None:
+    """Safely call single_nii_calc with error handling.
+    
+    Returns None if there is an exception. Returns dictionary otherwise.
+    """
+    try:
+        return single_nii_calc(nii_file, nii_volume, inputs, valid_files)
+    except Exception as e:
+        print(f"Error processing {nii_file}: {e}")
+        return None
+
 
 def single_nii_calc(nii_file: str,
                     nii_volume: str,
-                    inputs: Dict[str, Union[bool, str]],
-                    valid_files: Set[str]
-                    ) -> Dict[str, Union[str, int, float]]:
-    
+                    inputs: dict[str, bool | str],
+                    valid_files: set[str]
+                    ) -> dict[str, str | int | float]:
     """Calculate statistics for a single .nii file, to be used with map
     
     This function calls the mean/sd functions for a single .nii file and
-    returns the output as a dictionary which can be added to a list
-    or combined with map().
-    
+    returns the output as a dictionary to be converted to pandas data frame.
     """
     
 	# define label for output var (used as column header)

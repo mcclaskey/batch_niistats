@@ -23,17 +23,17 @@ If volumes are specified using both SPM syntax and using a volume_0basedindexing
 
 ## 2. Run scripts 
 
-Open a terminal and activate your project environment and cd to the project directory, then run the following line:
+Open a terminal (in unix/linux/WSL) or command prompt (in Windows). Activate your project environment and cd to the project directory, then run the following line:
 ```
 python3 batch_niistats.py [option]
 ```
-where [option] indicates which statistics to output for each .nii image, and must be one of: 
-- `-M`: calculate the mean of all nonzero voxels
-- `-m`: calculate the mean value of all voxels
-- `-S`: calculate the standard deviation of all nonzero voxels
+where [option] indicates which statistics to calculate for each .nii image, and must be one of: 
+- `-M`: calculate the mean of nonzero voxels
+- `-m`: calculate the mean of all voxels
+- `-S`: calculate the standard deviation of nonzero voxels
 - `-s`: calculate the standard deviation of all voxels
 
-For example, to calculate mean across all nonzero voxels, type:
+For example, to calculate mean across only nonzero voxels, type:
 
 ```
 python3 batch_niistats.py -M

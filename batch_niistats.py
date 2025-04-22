@@ -3,9 +3,14 @@
 
 import sys
 import src.modules.utilities as utilities
+import src.modules.nii as nii
+import os
+import pandas as pd
+import concurrent.futures
 
 def batch_niistats(input_arg: str):
-	"""
+	"""Calculates statistics for batch of .nii files and saves .csv of output
+
 	Function to calculate statistics for a set of nifti iamges and save a 
 	.csv file with the output. Which statistic to be calculated, and 
 	whether all voxels or only nonzero voxels are included, is specified
@@ -20,15 +25,6 @@ def batch_niistats(input_arg: str):
 
 	CMcC 4.9.2025
 	"""
-
-	##########################################################################
-	# Import modules, packages, and the datalist
-	##########################################################################
-
-	import src.modules.nii as nii
-	import os
-	import pandas as pd
-	import concurrent.futures
 
 	##########################################################################
 	# start with basic info: ask user for csv, report, check files
@@ -55,7 +51,7 @@ def batch_niistats(input_arg: str):
 	##########################################################################
 	with concurrent.futures.ThreadPoolExecutor() as executor:
 		single_nii_results = executor.map(
-			lambda args: nii.single_nii_calc(args[0],args[1],inputs,valid_files),
+			lambda args: nii.try_single_nii_calc(args[0],args[1],inputs,valid_files),
 			zip(datalist['input_file'],datalist['volume_0basedindex'])
 			)
 		list_of_data = list(single_nii_results)
