@@ -2,8 +2,7 @@
 # -*- coding : utf-8 -*-
 
 import sys
-import src.modules.utilities as utilities
-import src.modules.nii as nii
+from batch_niistats import nii, utils
 import os
 import pandas as pd
 import concurrent.futures
@@ -31,19 +30,19 @@ def batch_niistats(input_arg: str):
 	##########################################################################
 
 	# parse inputs
-	inputs = utilities.parse_inputs(input_arg)
+	inputs = utils.parse_inputs(args.option)
 
 	# ask for datalist (csv, first row must be "input_file")
-	datalist_filepath = utilities.askfordatalist()
+	datalist_filepath = utils.askfordatalist()
 
 	# print info for user reference
-	timestamp = utilities.get_timestamp()
+	timestamp = utils.get_timestamp()
 	print(f"[{timestamp}] batch_niistats.py\n\nCompiling .csv file with "
 		f"{inputs["statistic"]} values of .nii files listed in:\n"
 		f"{datalist_filepath}\n")
 
 	# read it and check for missing files
-	datalist = utilities.load_datalist(datalist_filepath)
+	datalist = utils.load_datalist(datalist_filepath)
 	valid_files = {f for f in datalist['input_file'] if os.path.exists(f)}
 
 	##########################################################################
@@ -61,7 +60,7 @@ def batch_niistats(input_arg: str):
 	##########################################################################
 	combined_df = pd.DataFrame(list_of_data)
 	print(combined_df)
-	utilities.save_output_csv(combined_df,
+	utils.save_output_csv(combined_df,
 							datalist_filepath,
 							input_arg,
 							timestamp)
@@ -71,9 +70,9 @@ if __name__ == "__main__":
 	supported_inputs = ["-M","-m","-S","-s"]
 	
 	if len(sys.argv) == 1:
-		utilities.report_usage()
+		utils.report_usage()
 	else:
 		if sys.argv[1] in supported_inputs:
 			batch_niistats(sys.argv[1])
 		else:
-			utilities.report_usage()
+			utils.report_usage()
