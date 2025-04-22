@@ -22,7 +22,7 @@ def get_timestamp() -> str:
 	"""Format the current time as a timestamp and return it as a string"""
 	return datetime.datetime.now().strftime("%Y.%m.%d %H:%M:%S")
 
-def parse_inputs(input_arg: str) -> dict[str, bool | str]:
+def parse_inputs(input_arg: str) -> dict[str, bool | str] | None:
 	"""Parse user-provided input options
 	
 	Reads the user-provided option and defines the statistic
@@ -35,16 +35,15 @@ def parse_inputs(input_arg: str) -> dict[str, bool | str]:
 	-S: calculate standard deviation of nonzero voxels
 	-s: calculate standard deivation of all voxels
 	"""
-	if input_arg == "-M":
-		inputs = {'omit_zeros': True, 'statistic': 'mean'}
-	elif input_arg == "-m":
-		inputs = {'omit_zeros': False, 'statistic': 'mean'}
-	elif input_arg == "-S":
-		inputs = {'omit_zeros': True, 'statistic': 'sd'}
-	elif input_arg == "-s":
-		inputs = {'omit_zeros': False, 'statistic': 'sd'}
-
-	return(inputs)
+	
+	option_map = {
+        "-M": {"omit_zeros": True, "statistic": "mean"},
+        "-m": {"omit_zeros": False, "statistic": "mean"},
+        "-S": {"omit_zeros": True, "statistic": "sd"},
+        "-s": {"omit_zeros": False, "statistic": "sd"},
+    }
+	
+	return option_map.get(input_arg, {})
 
 
 def askfordatalist() -> str:
