@@ -2,7 +2,7 @@
 # -*- coding : utf-8 -*-
 
 import argparse
-from batch_niistats import nii, utils
+from src.batch_niistats import nii, utils
 import os
 import pandas as pd
 import concurrent.futures
