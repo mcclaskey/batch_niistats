@@ -18,17 +18,21 @@ import datetime
 import os
 
 def get_timestamp() -> str:
-	"""Gets a timestamp at the start, which is used for labeling and reporting
-	
-	"""
+	"""Formats the current time as a timestamp and returns it as a string"""
 	return datetime.datetime.now().strftime("%Y.%m.%d %H:%M:%S")
 
 def parse_inputs(input_arg: str) -> dict[str, bool | str]:
-	"""Parses user-provided input option
+	"""Parse user-provided input options
 	
 	Reads the user-provided option and defines the statistic
 	and whether to use all voxels or only non-zero voxels, 
-	then returns this as a dict
+	then returns this as a dict.
+
+	Supported options are:
+	-M: calculate mean of nonzero voxels
+	-m: calculate mean of all voxels
+	-S: calculate standard deviation of nonzero voxels
+	-s: calculate standard deivation of all voxels
 	"""
 	if input_arg == "-M":
 		inputs = {'omit_zeros': True, 'statistic': 'mean'}
@@ -43,20 +47,14 @@ def parse_inputs(input_arg: str) -> dict[str, bool | str]:
 
 
 def askfordatalist() -> str:
-  """Opens a file dialog to ask the user for the input CSV file path.
-	
-	First row must contain 'input_file'.
-
-  """
+  """Prompts user for input CSV file and returns full file path as string."""
   root = tk.Tk()
   root.withdraw()
   return filedialog.askopenfilename()
 
 
 def comma_split(input_spm_path: str) -> dict[str, int | None]:
-	"""Splits a path by comma (SPM-style) and extracts the volume index (0-based).
-	
-	"""
+	"""Splits SPM-style path at comma, returns file and 0-based vol as dict"""
 	parts = input_spm_path.split(',')
 	if len(parts) == 1:
 		volume_index  = None
@@ -66,10 +64,12 @@ def comma_split(input_spm_path: str) -> dict[str, int | None]:
 	return {'input_file': parts[0],'volume_spm_0basedindex': volume_index }
 
 def parse_spmsyntax(datalist: pd.DataFrame) -> pd.DataFrame:
-	"""
-	Handles SPM-style volume syntax in 'input_file' column.
+	"""Handles SPM-style volume syntax in 'input_file' column
 
-    Splits the filename and extracts volume, then merges with original DataFrame.
+    Takes .csv datalist and reads the "input_file" column according to SPM
+	syntax for specifying volumes. Returns a dataframe where the input_file
+	column is converted to a pure filepath and a new 0-based index column
+	containing the SPM volume is added.
     """
 
 	list_of_spmsplit = list(map(comma_split,datalist['input_file']))
@@ -79,10 +79,13 @@ def parse_spmsyntax(datalist: pd.DataFrame) -> pd.DataFrame:
 	return pd.concat([df_of_spmsplits, other_cols], axis=1)
 
 def prioritize_volume(datalist):
-	"""
-    Resolves the volume to load when there are conflicting or missing values.
+	"""Determines which volume to read for each file, returns datalist
+	
+	Reads datalist with potentially multiple volumn columns and resolves 
+	conflicting or missing values. Determines which volume to read according
+	to rules and returns datalist with a single 'volume_0basedindex' column.
 
-    Preference order: explicit volume column > SPM syntax > default to volume 1.
+    Preference order: explicit volume col > SPM syntax > default to first vol.
     """
 	
 	# temp var
@@ -107,11 +110,16 @@ def prioritize_volume(datalist):
 
 
 def load_datalist(datalist_filepath: str) -> pd.DataFrame:
+	"""Loads user-specified input .csv file and returns formatting dataframe
+	
+	Loads a CSV file containing paths to .nii files and optional volume indices.
 
-	"""
-    Loads a CSV file containing paths to .nii files and optional volume indices.
+    Handles SPM-style syntax and fills in missing volume data. Resolves conflicting
+	input information and defaults to first volume where necessary. 
 
-    Handles SPM-style syntax and fills in missing volume data.
+	Returns a dataframe with 'input_file' as pure absolute paths to .nii files 
+	and 'volume_0basedindex' column with volume indices. Other columns in the
+	datalist, if existing, are left unmodified.
     """
 	datalist = pd.read_csv(datalist_filepath)
 
@@ -127,10 +135,7 @@ def load_datalist(datalist_filepath: str) -> pd.DataFrame:
 	return prioritize_volume(datalist)
 
 def report_usage() -> str:
-	
-	"""
-    Prints usage information to the terminal.
-    """
+	"""Prints usage information to the terminal."""
 	usage_text = (
 		"\nUsage: python batch_niistats.py [option]\n\n"
 		"Options:\n\n"
@@ -159,9 +164,7 @@ def save_output_csv(output_df: pd.DataFrame,
 					datalist_filepath: str,
 					statistic: str,
 					timestamp: str):
-	
-	"""
-    Saves the result DataFrame to a timestamped CSV in the same directory.
+	"""Saves data to output .csv in the same directory as input .csv
 
     File name includes the timestamp and statistic.
     """

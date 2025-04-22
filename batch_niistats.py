@@ -5,7 +5,8 @@ import sys
 import src.modules.utilities as utilities
 
 def batch_niistats(input_arg: str):
-	"""
+	"""Calculates statistics for batch of .nii files and saves .csv of output
+
 	Function to calculate statistics for a set of nifti iamges and save a 
 	.csv file with the output. Which statistic to be calculated, and 
 	whether all voxels or only nonzero voxels are included, is specified
