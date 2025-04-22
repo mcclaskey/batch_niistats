@@ -8,7 +8,7 @@ import pandas as pd
 import concurrent.futures
 
 
-def batch_niistats():
+def main():
 	"""Calculate statistics for batch of .nii files and save .csv of output
 
 	Function to calculate statistics for a set of nifti iamges and save a 
@@ -86,4 +86,4 @@ def batch_niistats():
 
 
 if __name__ == "__main__":
-	batch_niistats()
+	main()
