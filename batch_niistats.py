@@ -3,6 +3,10 @@
 
 import sys
 import src.modules.utilities as utilities
+import src.modules.nii as nii
+import os
+import pandas as pd
+import concurrent.futures
 
 def batch_niistats(input_arg: str):
 	"""Calculates statistics for batch of .nii files and saves .csv of output
@@ -21,15 +25,6 @@ def batch_niistats(input_arg: str):
 
 	CMcC 4.9.2025
 	"""
-
-	##########################################################################
-	# Import modules, packages, and the datalist
-	##########################################################################
-
-	import src.modules.nii as nii
-	import os
-	import pandas as pd
-	import concurrent.futures
 
 	##########################################################################
 	# start with basic info: ask user for csv, report, check files
