@@ -27,7 +27,7 @@ If volumes are specified using both SPM syntax and using a `volume_0basedindex` 
 
 Open a terminal (in unix/linux/WSL) or command prompt (in Windows). Activate your project environment and cd to the project directory, then run the following line:
 ```
-python3 batch_niistats.py [option]
+batch_niistats [option]
 ```
 where [option] indicates which statistics to calculate for each .nii image, and must be one of: 
 - `-M`: calculate the mean of nonzero voxels
@@ -38,7 +38,7 @@ where [option] indicates which statistics to calculate for each .nii image, and 
 For example, to calculate mean across only nonzero voxels, type:
 
 ```
-python3 batch_niistats.py -M
+batch_niistats -M
 ```
 
 The program will start by opening a file selection dialogue box. Select the .csv file you created in step 1 and press ok. Wait while the program runs.
@@ -49,4 +49,24 @@ When it is done you will have a .csv file in the same directory as the input .cs
 1. create/activate a project environment
 2. cd to where you store repos and clone this repo using `git clone https://github.com/mcclaskey/batch_niistats.git`
 3. cd to repo directory
-4. run `pip3 install -r requirements.txt` to install required packages into your environment
+4. run `pip install -e .` to install required packages into your environment
+
+
+If you do not have a way to manage environments, here is a quick way to create and activate a python environment for this project:
+
+Create the environment (do this only once):
+```
+python3 -m venv batch_niistats_env
+```
+
+Then to activate the environment: 
+
+On Windows:
+```
+source batch_niistats_env\Scripts\activate
+```
+
+For linux/unix:
+```
+source batch_niistats_env/bin/activate 
+```
