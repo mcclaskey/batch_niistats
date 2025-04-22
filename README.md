@@ -9,9 +9,9 @@ Statistics (mean/standard deviation) can be calculated for all voxels in the .ni
 # Instructions
 
 ## 1. Create a list of .nii files
-Put together a list of your .nii files and save this list as a .csv file where the header row says "input_file" and each subsequent row contains the full path to a .nii file. 
+Put together a list of your .nii files and save this list as a .csv file where the header row says `input_file` and each subsequent row contains the full path to a .nii file. 
 
-If your files are 4D files and you would like to read a volume other than the first, also include a column called "volume_0basedindex" that specifies which volume to read using 0-based indexing (e.g. use 0 to specify the first volume, 1 for the second, etc). 0-based indexing is used in the style of python, nibabel, FSL, etc.
+If your files are 4D files and you would like to read a volume other than the first, also include a column called `volume_0basedindex` that specifies which volume to read using 0-based indexing (e.g. use 0 to specify the first volume, 1 for the second, etc). 0-based indexing is used in the style of python, nibabel, FSL, etc.
 
 Alternately, you can specify the volume using syntax in the style of SPM, which uses 1-based indexing and writes the filename as: 
 ```
@@ -19,7 +19,7 @@ full\path\to\your.nii,V
 ```
 where V indicates the volume number using 1-based indexing, e.g. `path\to\my.nii,1` for the first volume of my.nii.
 
-If volumes are specified using both SPM syntax and using a volume_0basedindexing column, the information in the volume_0basedindexing will be preferentially used. If no information is provided, the first volume of each image will be read.
+If volumes are specified using both SPM syntax and using a `volume_0basedindex` column, the information in the `volume_0basedindex` column will be preferentially used. If no information is provided, the first volume of each image will be read.
 
 ## 2. Run scripts 
 
