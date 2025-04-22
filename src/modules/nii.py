@@ -33,25 +33,20 @@ def mean_nii(data_array: np.ndarray,
          omit_zeros: bool) -> float:
     """Calculates mean of a data array
     
+    If omit_zeros is True, only nonzero voxels are included.
     """
-    if omit_zeros:
-        value = data_array[data_array > 0].mean()
-    else:
-        value = data_array.mean()
     
-    return value
+    return data_array[data_array > 0].mean() if omit_zeros else data_array.mean()
 
 def sd_nii(data_array: np.ndarray,
          omit_zeros: bool) -> float:
-    """Calculates sd of a data array
+    """Calculate the standard deviation of a 3D NumPy array.
     
+    If omit_zeros is True, only nonzero voxels are included.    
     """
-    if omit_zeros:
-        value = data_array[data_array > 0].std()
-    else:
-        value = data_array.std()
     
-    return value
+    return data_array[data_array > 0].std() if omit_zeros else data_array.std()
+
 def try_single_nii_calc(nii_file: str,
                          nii_volume: int,
                          inputs: dict[str, bool | str],
