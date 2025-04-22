@@ -52,19 +52,107 @@ def askfordatalist(*args) -> str:
   root.withdraw()
   datalist_filepath = filedialog.askopenfilename()
   return datalist_filepath
+def comma_split(input_spm_path: str) -> Dict[str, Optional[int]]:
+	"""Splits a path by comma (SPM-style) and extracts the volume index (0-based).
+	
+	"""
+	parts = input_spm_path.split(',')
+	if len(parts) == 1:
+		volume_index  = None
+	else:
+		volume_index  = int(parts[1]) - 1
+
+	return {'input_file': parts[0],'volume_spm_0basedindex': volume_index }
+
+def parse_spmsyntax(datalist: pd.DataFrame) -> pd.DataFrame:
+	"""
+	Handles SPM-style volume syntax in 'input_file' column.
+
+    Splits the filename and extracts volume, then merges with original DataFrame.
+    """
+
+	list_of_spmsplit = list(map(comma_split,datalist['input_file']))
+	df_of_spmsplits = pd.DataFrame(list_of_spmsplit)
+
+	other_cols = datalist.drop(columns=['input_file'], errors='ignore')
+	return pd.concat([df_of_spmsplits, other_cols], axis=1)
+
+def prioritize_volume(datalist):
+	"""
+    Resolves the volume to load when there are conflicting or missing values.
+
+    Preference order: explicit volume column > SPM syntax > default to volume 1.
+    """
+	
+	# temp var
+	datalist['volume'] = None	
+	
+	# uses matching volume
+	matches = datalist['volume_spm_0basedindex'] == datalist['volume_0basedindex']
+	datalist.loc[matches,'volume'] = datalist.loc[matches,'volume_0basedindex']
+
+	# if conflicts, preferentially read from user created column 'volume_0basedindex'
+	user_vol = ~np.isnan(datalist.loc[~matches, 'volume_0basedindex'])
+	datalist.loc[~matches & user_vol, 'volume'] = datalist.loc[~matches & user_vol, 'volume_0basedindex']
+
+	# otherwise read from spm
+	spm_vol = ~np.isnan(datalist.loc[~matches,'volume_spm_0basedindex'])
+	datalist.loc[~matches & spm_vol ,'volume'] = datalist.loc[~matches & spm_vol ,'volume_spm_0basedindex']
+
+	# if missing, assume first volume
+	datalist.loc[datalist['volume'].isna(), 'volume'] = 0  # default to first volume
+	datalist['volume_0basedindex'] = datalist['volume'].astype(int)
+	return datalist.drop(columns=['volume_spm_0basedindex', 'volume'], errors='ignore')
+
+
+def load_datalist(datalist_filepath: str) -> pd.DataFrame:
+
+	"""
+    Loads a CSV file containing paths to .nii files and optional volume indices.
+
+    Handles SPM-style syntax and fills in missing volume data.
+    """
+	datalist = pd.read_csv(datalist_filepath)
+
+	# now check for SPM volume syntax
+	if datalist['input_file'].astype(str).str.contains(',').any():
+		datalist = parse_spmsyntax(datalist)
+	else:
+		datalist['volume_spm_0basedindex'] = None
+
+	if 'volume_0basedindex' not in datalist.columns:
+		datalist['volume_0basedindex'] = None
+
+	return prioritize_volume(datalist)
 
 def report_usage(*args) -> str:
-   """ Defines the text used to repor usage to the user
-   
-   """
-   usage_text = ("\nUsage: python batch_niistats.py [option]\n\n"
-				"Options:\n\n-M: output mean (for nonzero voxels only)\n"
-				"-m: output mean (for all voxels in image)\n\nYou will then "
-				"be prompted for a list of .nii files to process.\nThis list "
-				"must be a single-column csv file where the first row\nsays "
-				"'input_file' and the subsequent rows are absolute paths\nto "
-				"each file.")
-   print(usage_text.format())
+	
+	"""
+    Prints usage information to the terminal.
+    """
+	usage_text = (
+		"\nUsage: python batch_niistats.py [option]\n\n"
+		"Options:\n\n"
+		"-M: output mean (for nonzero voxels only)\n"
+		"-m: output mean (for all voxels in image)\n"
+		"-S: output standard deviation (for nonzero voxels only)\n"
+		"-s: output standard deviation (for all voxels)\n\n"
+		"You will then be prompted for a list of .nii files to process.\n\n"
+		"This list must be a CSV file with columns 'input_file' and\n"
+		"'volume_0basedindexing'.\n\n"
+		"'input_file' lists the absolute paths to each .nii file and\n"
+		"'volume_0basedindexing' indicates the volume to read, using\n"
+		"0-based indexing (e.g. use 0 to specify the first volume and 1\n"
+		"for the second, etc).\n\n"
+		"In lieu of a 'volume_0basedindex' column, volumes can also be\n"
+		"specified in the input_file column using SPM syntax where ',N' is\n"
+		"placed after the filename. N indicates volume using 1-based indexing.\n\n"
+		"The 'volume_0basedindexing' column or SPM synax can be omitted if\n"
+		"all files are 3D NIfTIs or if you only want to calculate statistics\n"
+		"on the first volume of each image.\n\n"
+		)
+	
+	print(usage_text.format())
 
 def save_output_csv(output_df: pd.DataFrame, 
                     datalist_filepath: str,

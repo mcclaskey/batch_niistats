@@ -47,7 +47,7 @@ def batch_niistats(input_arg: str):
 		f"{datalist_filepath}\n")
 
 	# read it and check for missing files
-	datalist = pd.read_csv(datalist_filepath)
+	datalist = utilities.load_datalist(datalist_filepath)
 	valid_files = {f for f in datalist['input_file'] if os.path.exists(f)}
 
 	##########################################################################
@@ -58,11 +58,8 @@ def batch_niistats(input_arg: str):
 			filter(
 				None, 
 				executor.map(
-					lambda nii_file: nii.single_nii_calc(nii_file, 
-													inputs,
-													valid_files),
-					datalist['input_file'])
-					)
+					lambda args: nii.single_nii_calc(args[0],args[1],inputs,valid_files),
+					zip(datalist['input_file'],datalist['volume_0basedindex'])
 			)
 		
 	##########################################################################
