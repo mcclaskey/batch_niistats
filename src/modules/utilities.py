@@ -16,6 +16,7 @@ from tkinter import filedialog
 import pandas as pd
 import datetime
 import os
+import numpy as np
 
 def get_timestamp() -> str:
 	"""Format the current time as a timestamp and return it as a string"""
