@@ -52,6 +52,22 @@ def sd_nii(data_array: np.ndarray,
         value = data_array.std()
     
     return value
+def try_single_nii_calc(nii_file: str,
+                         nii_volume: int,
+                         inputs: dict[str, bool | str],
+                         valid_files: set[str]
+						 ) -> dict[str, str | int | float] | None:
+    """Wrapper to safely call single_nii_calc with error handling.
+    
+    Returns None if there is an exception.
+    
+    """
+    try:
+        return single_nii_calc(nii_file, nii_volume, inputs, valid_files)
+    except Exception as e:
+        print(f"Error processing {nii_file}: {e}")
+        return None
+
 
 def single_nii_calc(nii_file: str,
                     nii_volume: str,

@@ -55,7 +55,7 @@ def batch_niistats(input_arg: str):
 	##########################################################################
 	with concurrent.futures.ThreadPoolExecutor() as executor:
 		single_nii_results = executor.map(
-			lambda args: nii.single_nii_calc(args[0],args[1],inputs,valid_files),
+			lambda args: nii.try_single_nii_calc(args[0],args[1],inputs,valid_files),
 			zip(datalist['input_file'],datalist['volume_0basedindex'])
 			)
 		list_of_data = list(single_nii_results)
