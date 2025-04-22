@@ -9,12 +9,12 @@ import concurrent.futures
 
 
 def batch_niistats():
-	"""Calculates statistics for batch of .nii files and saves .csv of output
+	"""Calculate statistics for batch of .nii files and save .csv of output
 
 	Function to calculate statistics for a set of nifti iamges and save a 
 	.csv file with the output. Which statistic to be calculated, and 
 	whether all voxels or only nonzero voxels are included, is specified
-	via input_arg. Supported inputs are -S, -s, -M, -m and follow FSL's
+	via input args. Supported inputs are -S, -s, -M, -m and follow FSL's
 	conventions for input options.
 
 	This function prompts the user for the csv file that contains input 
