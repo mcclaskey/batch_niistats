@@ -25,7 +25,7 @@ def load_nii(input_file: str,
 
 def mean_nii(data_array: np.ndarray,
          omit_zeros: bool) -> float:
-    """Calculates mean of a 3D NumPy array, returns single number
+    """Calculate mean of a 3D NumPy array, return single number
     
     If omit_zeros is True, only nonzero voxels are included in calculation.
     """
@@ -34,7 +34,7 @@ def mean_nii(data_array: np.ndarray,
 
 def sd_nii(data_array: np.ndarray,
          omit_zeros: bool) -> float:
-    """Calculate the standard deviation of a 3D NumPy array, returns float
+    """Calculate the standard deviation of a 3D NumPy array, return float
     
     If omit_zeros is True, only nonzero voxels are included in sd calculation.    
     """
@@ -46,7 +46,7 @@ def try_single_nii_calc(nii_file: str,
                          inputs: dict[str, bool | str],
                          valid_files: set[str]
 						 ) -> dict[str, str | int | float] | None:
-    """Wrapper to safely call single_nii_calc with error handling.
+    """Safely call single_nii_calc with error handling.
     
     Returns None if there is an exception. Returns dictionary otherwise.
     """

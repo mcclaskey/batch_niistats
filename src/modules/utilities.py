@@ -18,7 +18,7 @@ import datetime
 import os
 
 def get_timestamp() -> str:
-	"""Formats the current time as a timestamp and returns it as a string"""
+	"""Format the current time as a timestamp and return it as a string"""
 	return datetime.datetime.now().strftime("%Y.%m.%d %H:%M:%S")
 
 def parse_inputs(input_arg: str) -> dict[str, bool | str]:
@@ -47,14 +47,14 @@ def parse_inputs(input_arg: str) -> dict[str, bool | str]:
 
 
 def askfordatalist() -> str:
-  """Prompts user for input CSV file and returns full file path as string."""
+  """Prompt user for input CSV file and return full file path as string."""
   root = tk.Tk()
   root.withdraw()
   return filedialog.askopenfilename()
 
 
 def comma_split(input_spm_path: str) -> dict[str, int | None]:
-	"""Splits SPM-style path at comma, returns file and 0-based vol as dict"""
+	"""Split SPM-style path at comma, return file and 0-based vol as dict"""
 	parts = input_spm_path.split(',')
 	if len(parts) == 1:
 		volume_index  = None
@@ -64,7 +64,7 @@ def comma_split(input_spm_path: str) -> dict[str, int | None]:
 	return {'input_file': parts[0],'volume_spm_0basedindex': volume_index }
 
 def parse_spmsyntax(datalist: pd.DataFrame) -> pd.DataFrame:
-	"""Handles SPM-style volume syntax in 'input_file' column
+	"""Handle SPM-style volume syntax in 'input_file' column
 
     Takes .csv datalist and reads the "input_file" column according to SPM
 	syntax for specifying volumes. Returns a dataframe where the input_file
@@ -79,11 +79,12 @@ def parse_spmsyntax(datalist: pd.DataFrame) -> pd.DataFrame:
 	return pd.concat([df_of_spmsplits, other_cols], axis=1)
 
 def prioritize_volume(datalist):
-	"""Determines which volume to read for each file, returns datalist
+	"""Determine which volume to read for each file given input info
 	
 	Reads datalist with potentially multiple volumn columns and resolves 
 	conflicting or missing values. Determines which volume to read according
-	to rules and returns datalist with a single 'volume_0basedindex' column.
+	to rules and returns a dataframe with only two columns: 'input_file' which
+	has only a pure file path to .nii, and 'volume_0basedindex' column.
 
     Preference order: explicit volume col > SPM syntax > default to first vol.
     """
@@ -110,7 +111,7 @@ def prioritize_volume(datalist):
 
 
 def load_datalist(datalist_filepath: str) -> pd.DataFrame:
-	"""Loads user-specified input .csv file and returns formatting dataframe
+	"""Load user-specified input .csv file and return formatting dataframe
 	
 	Loads a CSV file containing paths to .nii files and optional volume indices.
 
@@ -135,7 +136,7 @@ def load_datalist(datalist_filepath: str) -> pd.DataFrame:
 	return prioritize_volume(datalist)
 
 def report_usage() -> str:
-	"""Prints usage information to the terminal."""
+	"""Print usage information to the terminal."""
 	usage_text = (
 		"\nUsage: python batch_niistats.py [option]\n\n"
 		"Options:\n\n"
@@ -164,7 +165,7 @@ def save_output_csv(output_df: pd.DataFrame,
 					datalist_filepath: str,
 					statistic: str,
 					timestamp: str):
-	"""Saves data to output .csv in the same directory as input .csv
+	"""Save data to output .csv in the same directory as input .csv
 
     File name includes the timestamp and statistic.
     """
