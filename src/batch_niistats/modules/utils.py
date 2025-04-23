@@ -135,6 +135,14 @@ def load_datalist(datalist_filepath: str) -> pd.DataFrame:
 
 	return prioritize_volume(datalist)
 
+def create_output_df(datalist: pd.DataFrame,
+					 list_of_data:list) -> pd.DataFrame:
+	calculated_df = pd.DataFrame(list_of_data)
+	input_df = datalist.drop(columns=["volume_0basedindex","file"], axis=1, errors='ignore')
+	breakpoint()
+	combined_df = pd.merge(input_df,calculated_df, on = ['input_file'], how='outer')
+	return combined_df
+
 def save_output_csv(output_df: pd.DataFrame, 
 					datalist_filepath: str,
 					statistic: str,
