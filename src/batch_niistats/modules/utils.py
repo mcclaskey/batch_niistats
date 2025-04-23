@@ -22,7 +22,7 @@ def get_timestamp() -> str:
 	"""Format the current time as a timestamp and return it as a string"""
 	return datetime.datetime.now().strftime("%Y.%m.%d %H:%M:%S")
 
-def parse_inputs(input_arg: str) -> dict[str, bool | str]:
+def parse_inputs(input_arg: str) -> dict[str, bool | str] | None:
 	"""Parse user-provided input options
 	
 	Reads the user-provided option and defines the statistic
@@ -30,21 +30,20 @@ def parse_inputs(input_arg: str) -> dict[str, bool | str]:
 	then returns this as a dict.
 
 	Supported options are:
-	-M: calculate mean of nonzero voxels
-	-m: calculate mean of all voxels
-	-S: calculate standard deviation of nonzero voxels
-	-s: calculate standard deivation of all voxels
+	M: calculate mean of nonzero voxels
+	m: calculate mean of all voxels
+	S: calculate standard deviation of nonzero voxels
+	s: calculate standard deivation of all voxels
 	"""
-	if input_arg == "-M":
-		inputs = {'omit_zeros': True, 'statistic': 'mean'}
-	elif input_arg == "-m":
-		inputs = {'omit_zeros': False, 'statistic': 'mean'}
-	elif input_arg == "-S":
-		inputs = {'omit_zeros': True, 'statistic': 'sd'}
-	elif input_arg == "-s":
-		inputs = {'omit_zeros': False, 'statistic': 'sd'}
-
-	return(inputs)
+	
+	option_map = {
+        "M": {"omit_zeros": True, "statistic": "mean"},
+        "m": {"omit_zeros": False, "statistic": "mean"},
+        "S": {"omit_zeros": True, "statistic": "sd"},
+        "s": {"omit_zeros": False, "statistic": "sd"},
+    }
+	
+	return option_map.get(input_arg, {})
 
 
 def askfordatalist() -> str:
@@ -135,32 +134,6 @@ def load_datalist(datalist_filepath: str) -> pd.DataFrame:
 		datalist['volume_0basedindex'] = None
 
 	return prioritize_volume(datalist)
-
-def report_usage() -> str:
-	"""Print usage information to the terminal."""
-	usage_text = (
-		"\nUsage: python batch_niistats.py [option]\n\n"
-		"Options:\n\n"
-		"-M: output mean (for nonzero voxels only)\n"
-		"-m: output mean (for all voxels in image)\n"
-		"-S: output standard deviation (for nonzero voxels only)\n"
-		"-s: output standard deviation (for all voxels)\n\n"
-		"You will then be prompted for a list of .nii files to process.\n\n"
-		"This list must be a CSV file with columns 'input_file' and\n"
-		"'volume_0basedindexing'.\n\n"
-		"'input_file' lists the absolute paths to each .nii file and\n"
-		"'volume_0basedindexing' indicates the volume to read, using\n"
-		"0-based indexing (e.g. use 0 to specify the first volume and 1\n"
-		"for the second, etc).\n\n"
-		"In lieu of a 'volume_0basedindex' column, volumes can also be\n"
-		"specified in the input_file column using SPM syntax where ',N' is\n"
-		"placed after the filename. N indicates volume using 1-based indexing.\n\n"
-		"The 'volume_0basedindexing' column or SPM synax can be omitted if\n"
-		"all files are 3D NIfTIs or if you only want to calculate statistics\n"
-		"on the first volume of each image.\n\n"
-		)
-	
-	print(usage_text.format())
 
 def save_output_csv(output_df: pd.DataFrame, 
 					datalist_filepath: str,
