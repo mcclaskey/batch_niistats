@@ -30,17 +30,17 @@ def parse_inputs(input_arg: str) -> dict[str, bool | str] | None:
 	then returns this as a dict.
 
 	Supported options are:
-	-M: calculate mean of nonzero voxels
-	-m: calculate mean of all voxels
-	-S: calculate standard deviation of nonzero voxels
-	-s: calculate standard deivation of all voxels
+	M: calculate mean of nonzero voxels
+	m: calculate mean of all voxels
+	S: calculate standard deviation of nonzero voxels
+	s: calculate standard deivation of all voxels
 	"""
 	
 	option_map = {
-        "-M": {"omit_zeros": True, "statistic": "mean"},
-        "-m": {"omit_zeros": False, "statistic": "mean"},
-        "-S": {"omit_zeros": True, "statistic": "sd"},
-        "-s": {"omit_zeros": False, "statistic": "sd"},
+        "M": {"omit_zeros": True, "statistic": "mean"},
+        "m": {"omit_zeros": False, "statistic": "mean"},
+        "S": {"omit_zeros": True, "statistic": "sd"},
+        "s": {"omit_zeros": False, "statistic": "sd"},
     }
 	
 	return option_map.get(input_arg, {})
@@ -140,10 +140,10 @@ def report_usage() -> str:
 	usage_text = (
 		"\nUsage: python batch_niistats.py [option]\n\n"
 		"Options:\n\n"
-		"-M: output mean (for nonzero voxels only)\n"
-		"-m: output mean (for all voxels in image)\n"
-		"-S: output standard deviation (for nonzero voxels only)\n"
-		"-s: output standard deviation (for all voxels)\n\n"
+		"M: output mean (for nonzero voxels only)\n"
+		"m: output mean (for all voxels in image)\n"
+		"S: output standard deviation (for nonzero voxels only)\n"
+		"s: output standard deviation (for all voxels)\n\n"
 		"You will then be prompted for a list of .nii files to process.\n\n"
 		"This list must be a CSV file with columns 'input_file' and\n"
 		"'volume_0basedindexing'.\n\n"

@@ -1,7 +1,7 @@
 # batch_niistats
 Small set of functions that calculate statistics on a batch of 3D nifti files and return the output as a .csv file. Pure python code that works very quickly on all operating systems.
 
-Statistics (mean/standard deviation) can be calculated for all voxels in the .nii, or for only nonzero voxels. This is the equivalent of fslstats with the -M/-S option or -m/-s option, respectively.
+Statistics (mean/standard deviation) can be calculated for all voxels in the .nii, or for only nonzero voxels. This is the equivalent of fslstats with the M/S option or m/s option, respectively.
 
 # Requirements
 * python3.11+
@@ -30,15 +30,15 @@ Open a terminal (in unix/linux/WSL) or command prompt (in Windows). Activate you
 batch_niistats [option]
 ```
 where [option] indicates which statistics to calculate for each .nii image, and must be one of: 
-- `-M`: calculate the mean of nonzero voxels
-- `-m`: calculate the mean of all voxels
-- `-S`: calculate the standard deviation of nonzero voxels
-- `-s`: calculate the standard deviation of all voxels
+- `M`: calculate the mean of nonzero voxels
+- `m`: calculate the mean of all voxels
+- `S`: calculate the standard deviation of nonzero voxels
+- `s`: calculate the standard deviation of all voxels
 
 For example, to calculate mean across only nonzero voxels, type:
 
 ```
-batch_niistats -M
+batch_niistats M
 ```
 
 The program will start by opening a file selection dialogue box. Select the .csv file you created in step 1 and press ok. Wait while the program runs.

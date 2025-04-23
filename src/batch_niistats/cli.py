@@ -14,7 +14,7 @@ def main():
 	Function to calculate statistics for a set of nifti iamges and save a 
 	.csv file with the output. Which statistic to be calculated, and 
 	whether all voxels or only nonzero voxels are included, is specified
-	via input args. Supported inputs are -S, -s, -M, -m and follow FSL's
+	via input args. Supported inputs are S, s, M, m and follow FSL's
 	conventions for input options.
 
 	This function prompts the user for the csv file that contains input 
@@ -34,9 +34,9 @@ def main():
     )
 	parser.add_argument(
         "option",
-        choices=["-M", "-m", "-S", "-s"],
-        help="Statistical option: -M (mean, nonzero), -m (mean, all), "
-             "-S (sd, nonzero), -s (sd, all)"
+        choices=["M", "m", "S", "s"],
+        help="Statistical option: M (mean, nonzero), m (mean, all), "
+             "S (sd, nonzero), s (sd, all)"
     )
 
 	args = parser.parse_args()
