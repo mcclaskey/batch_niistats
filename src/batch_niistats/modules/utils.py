@@ -99,9 +99,10 @@ def prioritize_volume(datalist):
 	user_vol = ~np.isnan(datalist.loc[~matches, 'volume_0basedindex'])
 	datalist.loc[~matches & user_vol, 'volume'] = datalist.loc[~matches & user_vol, 'volume_0basedindex']
 
-	# otherwise read from spm
-	spm_vol = ~np.isnan(datalist.loc[~matches,'volume_spm_0basedindex'])
-	datalist.loc[~matches & spm_vol ,'volume'] = datalist.loc[~matches & spm_vol ,'volume_spm_0basedindex']
+	# if missingness, read from spm
+	missingrows = datalist['volume'].isna()
+	spm_vol = ~np.isnan(datalist.loc[missingrows,'volume_spm_0basedindex'])
+	datalist.loc[missingrows & spm_vol ,'volume'] = datalist.loc[missingrows & spm_vol ,'volume_spm_0basedindex']
 
 	# if missing, assume first volume
 	datalist.loc[datalist['volume'].isna(), 'volume'] = 0  # default to first volume
