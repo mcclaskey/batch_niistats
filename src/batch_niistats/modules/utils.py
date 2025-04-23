@@ -61,7 +61,7 @@ def comma_split(input_spm_path: str) -> dict[str, int | None]:
 	else:
 		volume_index  = int(parts[1]) - 1
 
-	return {'input_file': parts[0],'volume_spm_0basedindex': volume_index }
+	return {'file': parts[0],'volume_spm_0basedindex': volume_index }
 
 def parse_spmsyntax(datalist: pd.DataFrame) -> pd.DataFrame:
 	"""Handle SPM-style volume syntax in 'input_file' column
@@ -75,8 +75,7 @@ def parse_spmsyntax(datalist: pd.DataFrame) -> pd.DataFrame:
 	list_of_spmsplit = list(map(comma_split,datalist['input_file']))
 	df_of_spmsplits = pd.DataFrame(list_of_spmsplit)
 
-	other_cols = datalist.drop(columns=['input_file'], errors='ignore')
-	return pd.concat([df_of_spmsplits, other_cols], axis=1)
+	return pd.concat([datalist, df_of_spmsplits], axis=1)
 
 def prioritize_volume(datalist):
 	"""Determine which volume to read for each file given input info
@@ -128,12 +127,21 @@ def load_datalist(datalist_filepath: str) -> pd.DataFrame:
 	if datalist['input_file'].astype(str).str.contains(',').any():
 		datalist = parse_spmsyntax(datalist)
 	else:
+		datalist['file'] = datalist['input_file']
 		datalist['volume_spm_0basedindex'] = np.nan
 
 	if 'volume_0basedindex' not in datalist.columns:
 		datalist['volume_0basedindex'] = np.nan
 
 	return prioritize_volume(datalist)
+
+def create_output_df(datalist: pd.DataFrame,
+					 list_of_data:list) -> pd.DataFrame:
+	calculated_df = pd.DataFrame(list_of_data)
+	input_df = datalist.drop(columns=["volume_0basedindex","file"], axis=1, errors='ignore')
+	breakpoint()
+	combined_df = pd.merge(input_df,calculated_df, on = ['input_file'], how='outer')
+	return combined_df
 
 def save_output_csv(output_df: pd.DataFrame, 
 					datalist_filepath: str,
