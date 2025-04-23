@@ -30,7 +30,21 @@ def main():
 	# handle input arguments
 	##########################################################################
 	parser = argparse.ArgumentParser(
-        description="Calculate statistics from a list of .nii files."
+        description=(f"Calculate statistics from a list of .nii files.\n\n"
+		f"Once the program starts, you will prompted for a list of .nii\n"
+		f"files to process. This list must be a CSV file with columns\n"
+		f"'input_file' and (optionally) 'volume_0basedindexing'.\n\n"
+		f"'input_file' lists the absolute paths to each .nii file and\n"
+		f"'volume_0basedindexing' indicates the volume to read, using\n"
+		f"0-based indexing (e.g. use 0 to specify the first volume and 1\n"
+		f"for the second, etc).\n\n"
+		f"In lieu of a 'volume_0basedindex' column, volumes can also be\n"
+		f"specified in the input_file column using SPM syntax where ',N' is\n"
+		f"placed after the filename. N indicates volume using 1-based indexing.\n\n"
+		f"The 'volume_0basedindexing' column or SPM synax can be omitted if\n"
+		f"all files are 3D NIfTIs or if you only want to calculate statistics\n"
+		f"on the first volume of each image.\n\n"),
+		formatter_class=argparse.RawDescriptionHelpFormatter,
     )
 	parser.add_argument(
         "option",
@@ -47,9 +61,6 @@ def main():
 
 	# parse inputs
 	inputs = utils.parse_inputs(args.option)
-	if not inputs:
-		utils.report_usage()
-		return
 
 	# ask for datalist (csv, first row must be "input_file")
 	datalist_filepath = utils.askfordatalist()

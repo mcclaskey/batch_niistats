@@ -135,32 +135,6 @@ def load_datalist(datalist_filepath: str) -> pd.DataFrame:
 
 	return prioritize_volume(datalist)
 
-def report_usage() -> str:
-	"""Print usage information to the terminal."""
-	usage_text = (
-		"\nUsage: python batch_niistats.py [option]\n\n"
-		"Options:\n\n"
-		"M: output mean (for nonzero voxels only)\n"
-		"m: output mean (for all voxels in image)\n"
-		"S: output standard deviation (for nonzero voxels only)\n"
-		"s: output standard deviation (for all voxels)\n\n"
-		"You will then be prompted for a list of .nii files to process.\n\n"
-		"This list must be a CSV file with columns 'input_file' and\n"
-		"'volume_0basedindexing'.\n\n"
-		"'input_file' lists the absolute paths to each .nii file and\n"
-		"'volume_0basedindexing' indicates the volume to read, using\n"
-		"0-based indexing (e.g. use 0 to specify the first volume and 1\n"
-		"for the second, etc).\n\n"
-		"In lieu of a 'volume_0basedindex' column, volumes can also be\n"
-		"specified in the input_file column using SPM syntax where ',N' is\n"
-		"placed after the filename. N indicates volume using 1-based indexing.\n\n"
-		"The 'volume_0basedindexing' column or SPM synax can be omitted if\n"
-		"all files are 3D NIfTIs or if you only want to calculate statistics\n"
-		"on the first volume of each image.\n\n"
-		)
-	
-	print(usage_text.format())
-
 def save_output_csv(output_df: pd.DataFrame, 
 					datalist_filepath: str,
 					statistic: str,
