@@ -41,23 +41,29 @@ def sd_nii(data_array: np.ndarray,
     
     return data_array[data_array > 0].std() if omit_zeros else data_array.std()
 
-def try_single_nii_calc(nii_file: str,
-                         nii_volume: int,
-                         inputs: dict[str, bool | str],
-                         valid_files: set[str]
+def try_single_nii_calc(nii_rawinput: str,
+                        nii_file: str,
+                        nii_volume: int,
+                        inputs: dict[str, bool | str],
+                        valid_files: set[str]
 						 ) -> dict[str, str | int | float] | None:
     """Safely call single_nii_calc with error handling.
     
     Returns None if there is an exception. Returns dictionary otherwise.
     """
     try:
-        return single_nii_calc(nii_file, nii_volume, inputs, valid_files)
+        return single_nii_calc(nii_rawinput, 
+                               nii_file, 
+                               nii_volume, 
+                               inputs, 
+                               valid_files)
     except Exception as e:
         print(f"Error processing {nii_file}: {e}")
         return None
 
 
-def single_nii_calc(nii_file: str,
+def single_nii_calc(nii_rawinput: str,
+                    nii_file: str,
                     nii_volume: str,
                     inputs: dict[str, bool | str],
                     valid_files: set[str]
@@ -89,7 +95,8 @@ def single_nii_calc(nii_file: str,
         output_val = None
         
 	            
-    return {'filename': nii_file, 
+    return {'input_file': nii_rawinput,
+            'filename': nii_file, 
             'volume_0basedindex': nii_volume,
             f"{inputs["statistic"]} of {omit_flag} voxels": output_val,
             'note': filestatus}

@@ -73,15 +73,15 @@ def main():
 
 	# read it and check for missing files
 	datalist = utils.load_datalist(datalist_filepath)
-	valid_files = {f for f in datalist['input_file'] if os.path.exists(f)}
+	valid_files = {f for f in datalist['file'] if os.path.exists(f)}
 
 	##########################################################################
 	# Loop across rows in csv, call single_nii_calc, add result to list
 	##########################################################################
 	with concurrent.futures.ThreadPoolExecutor() as executor:
 		single_nii_results = executor.map(
-			lambda args: nii.try_single_nii_calc(args[0],args[1],inputs,valid_files),
-			zip(datalist['input_file'],datalist['volume_0basedindex'])
+			lambda args: nii.try_single_nii_calc(args[0],args[1],args[2],inputs,valid_files),
+			zip(datalist['input_file'],datalist['file'],datalist['volume_0basedindex'])
 			)
 		list_of_data = list(single_nii_results)
 		
