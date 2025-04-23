@@ -71,7 +71,7 @@ def single_nii_calc(nii_file: str,
 	# define label for output var (used as column header)
     if inputs["omit_zeros"]:
         omit_flag = 'nonzero'
-    elif inputs["omit_zeros"]:
+    elif not inputs["omit_zeros"]:
         omit_flag = 'all'
 
     # Run calculation only if the file exists

@@ -128,10 +128,10 @@ def load_datalist(datalist_filepath: str) -> pd.DataFrame:
 	if datalist['input_file'].astype(str).str.contains(',').any():
 		datalist = parse_spmsyntax(datalist)
 	else:
-		datalist['volume_spm_0basedindex'] = None
+		datalist['volume_spm_0basedindex'] = np.nan
 
 	if 'volume_0basedindex' not in datalist.columns:
-		datalist['volume_0basedindex'] = None
+		datalist['volume_0basedindex'] = np.nan
 
 	return prioritize_volume(datalist)
 
