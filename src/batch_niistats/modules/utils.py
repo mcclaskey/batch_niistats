@@ -138,11 +138,20 @@ def load_datalist(datalist_filepath: str) -> pd.DataFrame:
 
 def create_output_df(datalist: pd.DataFrame,
 					 list_of_data:list) -> pd.DataFrame:
-	calculated_df = pd.DataFrame(list_of_data)
-	input_df = datalist.drop(columns=["volume_0basedindex","file"], axis=1, errors='ignore')
-	breakpoint()
-	combined_df = pd.merge(input_df,calculated_df, on = ['input_file'], how='outer')
-	return combined_df
+	
+    """Merges input and output df and returns df with original index order"""
+    calculated_df = pd.DataFrame(list_of_data)
+    calculated_df['input_file'] = calculated_df['input_file'].str.strip()
+    calculated_df = calculated_df.reset_index()
+
+    input_df = datalist.drop(columns=["volume_0basedindex","file"], axis=1, errors='ignore')
+    input_df = input_df.reset_index()
+    input_df['input_file'] = input_df['input_file'].str.strip()
+
+    combined_df = input_df.merge(calculated_df, on = ['input_file','index'], how='outer', sort = False)
+    combined_df = combined_df.sort_values(by='index').drop(columns=["index"], axis=1).reset_index(drop=True)
+	
+    return combined_df
 
 def save_output_csv(output_df: pd.DataFrame, 
 					datalist_filepath: str,
