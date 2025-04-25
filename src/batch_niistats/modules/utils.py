@@ -19,38 +19,38 @@ import os
 import numpy as np
 
 def get_timestamp() -> str:
-	"""Format the current time as a timestamp and return it as a string"""
-	return datetime.datetime.now().strftime("%Y.%m.%d %H:%M:%S")
+    """Format the current time as a timestamp and return it as a string"""
+    return datetime.datetime.now().strftime("%Y.%m.%d %H:%M:%S")
 
 def parse_inputs(input_arg: str) -> dict[str, bool | str] | None:
-	"""Parse user-provided input options
+    """Parse user-provided input options
 	
-	Reads the user-provided option and defines the statistic
+    Reads the user-provided option and defines the statistic
 	and whether to use all voxels or only non-zero voxels, 
 	then returns this as a dict.
 
-	Supported options are:
+    Supported options are:
 	M: calculate mean of nonzero voxels
 	m: calculate mean of all voxels
 	S: calculate standard deviation of nonzero voxels
 	s: calculate standard deivation of all voxels
 	"""
 	
-	option_map = {
+    option_map = {
         "M": {"omit_zeros": True, "statistic": "mean"},
         "m": {"omit_zeros": False, "statistic": "mean"},
         "S": {"omit_zeros": True, "statistic": "sd"},
         "s": {"omit_zeros": False, "statistic": "sd"},
     }
 	
-	return option_map.get(input_arg, {})
+    return option_map.get(input_arg, {})
 
 
 def askfordatalist() -> str:
-  """Prompt user for input CSV file and return full file path as string."""
-  root = tk.Tk()
-  root.withdraw()
-  return filedialog.askopenfilename()
+	"""Prompt user for input CSV file and return full file path as string."""
+	root = tk.Tk()
+	root.withdraw()
+	return filedialog.askopenfilename()
 
 
 def comma_split(input_spm_path: str) -> dict[str, int | None]:
