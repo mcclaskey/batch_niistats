@@ -84,16 +84,17 @@ def main():
 			zip(datalist['input_file'],datalist['file'],datalist['volume_0basedindex'])
 			)
 		list_of_data = list(single_nii_results)
-		
+	
 	##########################################################################
 	# create dataframe, show to user, save to csv, end program
 	##########################################################################
 	combined_df = utils.create_output_df(datalist,list_of_data)
-	print(combined_df)
 	utils.save_output_csv(combined_df,
 							datalist_filepath,
 							args.option,
 							timestamp)
+	
+	return(combined_df)
 
 if __name__ == "__main__":
 	main()
