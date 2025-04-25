@@ -1,7 +1,7 @@
 # batch_niistats
 Small set of functions that calculate statistics on a batch of 3D nifti files and return the output as a .csv file. Pure python code that works very quickly on all operating systems.
 
-Statistics (mean/standard deviation) can be calculated for all voxels in the .nii, or for only nonzero voxels. This is the equivalent of fslstats with the M/S option or m/s option, respectively.
+Statistics (mean/standard deviation) can be calculated for all voxels in the .nii, or for only nonzero voxels. This is the equivalent of fslstats with the -M/-S option or -m/-s option, respectively.
 
 # Requirements
 * python3.11+
@@ -17,7 +17,7 @@ Alternately, you can specify the volume using SPM-style syntax in the contents o
 ```
 full\path\to\your.nii,V
 ```
-where V indicates the volume number using 1-based indexing, e.g. `path\to\my.nii,1` for the first volume of my.nii. 
+where V is an integer that indicates the volume number using 1-based indexing, e.g. `path\to\my.nii,1` for the first volume of my.nii. 
 
 Support for SPM syntax is intended to facilitate copying to and from SPM but is otherwise not recommended. If you define filenames in this way, omit single quotations at the start and end of each string that are sometimes retained during SPM copy/paste. `batch_niistats.py` will not strip single quotations from file paths because they could theoretically be part of the file name.
 
@@ -46,12 +46,13 @@ The program will start by opening a file selection dialogue box. Select the .csv
 When it is done you will have a .csv file in the same directory as the input .csv file. The output file's name will be be the same as the input file's name but will have a timestamp and the suffix that indicates the option specified as input. 
 
 # Setup 
+## Basic Steps
 1. create/activate a project environment
-2. cd to where you store repos and clone this repo using `git clone https://github.com/mcclaskey/batch_niistats.git`
+2. cd to where you store repos and clone this repo using ```git clone https://github.com/mcclaskey/batch_niistats.git```
 3. cd to repo directory
 4. run `pip install -e .` to install required packages into your environment
 
-
+## venv
 If you do not have a way to manage environments, here is a quick way to create and activate a python environment for this project:
 
 Create the environment (do this only once):
