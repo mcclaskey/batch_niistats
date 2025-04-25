@@ -1,5 +1,4 @@
 # ignore the data list and local param files
-*.csv
 *Zone.Identifier
 
 #IDE files

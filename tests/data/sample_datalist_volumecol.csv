@@ -1,0 +1,15 @@
+input_file,volume_0basedindex
+"tests/data/fmri_4d.nii,1",0
+"tests/data/fmri_4d.nii.gz,1",0
+"tests/data/fmri_4d.nii.gz,2",1
+"tests/data/fmri_4d.nii.gz,1",1
+"tests/data/fmri_4d.nii.gz,2",0
+"tests/data/fmri_4d.nii.gz,0",
+"tests/data/fmri_4d.nii.gz,1",
+"tests/data/fmri_4d.nii.gz,2",
+tests/data/fmri_4d.nii.gz,
+tests/data/dki_kfa.nii,0
+"tests/data/dki_kfa.nii,five",
+"tests/data/dki_kfa.nii,1",
+tests/data/dki_kfa.nii,
+tests/data/dki_md.nii,

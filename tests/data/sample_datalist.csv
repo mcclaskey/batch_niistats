@@ -1,0 +1,7 @@
+input_file
+"tests/data/fmri_4d.nii.gz,1"
+"tests/data/fmri_4d.nii.gz,2"
+tests/data/fmri_4d.nii.gz
+tests/data/dki_kfa.nii
+"tests/data/dki_kfa.nii,1"
+tests/data/dki_md.nii
