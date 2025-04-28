@@ -156,7 +156,7 @@ def create_output_df(datalist: pd.DataFrame,
 
 def write_output_df_path(datalist_filepath: str,
                          statistic: str,
-                         timestamp: str):
+                         timestamp: str) -> str:
     """Create name and full filepath for output .csv 
     
     Output file will be in the same directory as input .csv.
