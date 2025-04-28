@@ -68,7 +68,7 @@ def main():
 	# print info for user reference
 	timestamp = utils.get_timestamp()
 	print(f"[{timestamp}] batch_niistats.py\n\nCompiling .csv file with "
-		f"{inputs["statistic"]} values of .nii files listed in:\n"
+		f"{inputs['statistic']} values of .nii files listed in:\n"
 		f"{datalist_filepath}\n")
 
 	# read it and check for missing files
