@@ -38,5 +38,5 @@ console_scripts = [
 ]
 
 [project.optional-dependencies]
-dev = ["pytest","pytest-mock","pytest-cov","flake8]
+dev = ["pytest","pytest-mock","pytest-cov","flake8"]
 
