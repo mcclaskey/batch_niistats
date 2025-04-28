@@ -75,9 +75,9 @@ def single_nii_calc(nii_rawinput: str,
     """
     
 	# define label for output var (used as column header)
-    if inputs["omit_zeros"]:
+    if inputs['omit_zeros']:
         omit_flag = 'nonzero'
-    elif not inputs["omit_zeros"]:
+    elif not inputs['omit_zeros']:
         omit_flag = 'all'
 
     # Run calculation only if the file exists
@@ -85,9 +85,9 @@ def single_nii_calc(nii_rawinput: str,
         nii_array = load_nii(nii_file,nii_volume)
         filestatus = 'file exists'
 
-        if inputs["statistic"] == 'mean':
+        if inputs['statistic'] == 'mean':
             output_val = mean_nii(nii_array, inputs["omit_zeros"])
-        elif inputs["statistic"] == 'sd':
+        elif inputs['statistic'] == 'sd':
             output_val = sd_nii(nii_array, inputs["omit_zeros"])
     else:
         print(f"File not found: {nii_file}")
@@ -98,6 +98,6 @@ def single_nii_calc(nii_rawinput: str,
     return {'input_file': nii_rawinput,
             'filename': nii_file, 
             'volume_0basedindex': nii_volume,
-            f"{inputs["statistic"]} of {omit_flag} voxels": output_val,
+            f"{inputs['statistic']} of {omit_flag} voxels": output_val,
             'note': filestatus}
     
