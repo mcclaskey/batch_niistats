@@ -50,7 +50,9 @@ def askfordatalist() -> str:
     """Prompt user for input CSV file and return full file path as string."""
     root = tk.Tk()
     root.withdraw()
-    return filedialog.askopenfilename()
+    filename = filedialog.askopenfilename()
+    root.destroy()   # Cleanup the Tkinter root window
+    return filename
 
 
 def comma_split(input_spm_path: str) -> dict[str, int | None]:
