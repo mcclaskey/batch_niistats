@@ -29,20 +29,22 @@ def main():
     # handle input arguments
     ##########################################################################
     parser = argparse.ArgumentParser(
-        description=(f"Calculate statistics from a list of .nii files.\n\n"
-            f"Once the program starts, you will prompted for a list of .nii\n"
-            f"files to process. This list must be a CSV file with columns\n"
-            f"'input_file' and (optionally) 'volume_0basedindexing'.\n\n"
-            f"'input_file' lists the absolute paths to each .nii file and\n"
-            f"'volume_0basedindexing' indicates the volume to read, using\n"
-            f"0-based indexing (e.g. use 0 to specify the first volume and 1\n"
-            f"for the second, etc).\n\n"
-            f"In lieu of a 'volume_0basedindex' column, volumes can also be\n"
-            f"specified in the input_file column using SPM syntax where ',N' is\n"
-            f"placed after the filename. N indicates volume using 1-based indexing.\n\n"
-            f"The 'volume_0basedindexing' column or SPM synax can be omitted if\n"
-            f"all files are 3D NIfTIs or if you only want to calculate statistics\n"
-            f"on the first volume of each image.\n\n"),
+        description=(
+            "Calculate statistics from a list of .nii files.\n\n"
+            "Once the program starts, you will prompted for a list of .nii\n"
+            "files to process. This list must be a CSV file with columns\n"
+            "'input_file' and (optionally) 'volume_0basedindexing'.\n\n"
+            "'input_file' lists the absolute paths to each .nii file and\n"
+            "'volume_0basedindexing' indicates the volume to read, using\n"
+            "0-based indexing (e.g. use 0 to specify the first volume and 1\n"
+            "for the second, etc).\n\n"
+            "In lieu of a 'volume_0basedindex' column, volumes can also be\n"
+            "specified in the input_file column using SPM syntax where ',N' is\n"
+            "placed after the filename. N indicates volume using 1-based indexing.\n\n"
+            "The 'volume_0basedindexing' column or SPM synax can be omitted if\n"
+            "all files are 3D NIfTIs or if you only want to calculate statistics\n"
+            "on the first volume of each image.\n\n"
+            ),
         formatter_class=argparse.RawDescriptionHelpFormatter,
     )
     parser.add_argument(
@@ -66,9 +68,11 @@ def main():
 
     # print info for user reference
     timestamp = utils.get_timestamp()
-    print(f"[{timestamp}] batch_niistats.py\n\nCompiling .csv file with "
-            f"{inputs['statistic']} values of .nii files listed in:\n"
-            f"{datalist_filepath}\n")
+    print(
+        f"[{timestamp}] batch_niistats.py\n\nCompiling .csv file with "
+        f"{inputs['statistic']} values of .nii files listed in:\n"
+        f"{datalist_filepath}\n"
+        )
 
     # read it and check for missing files
     datalist = utils.load_datalist(datalist_filepath)
@@ -91,13 +95,14 @@ def main():
     ##########################################################################
     # create dataframe, show to user, save to csv, end program
     ##########################################################################
-    output_path = utils.write_output_df_path(datalist_filepath,
-                                          args.option,
-                                          timestamp)
+    output_path = utils.write_output_df_path(
+        datalist_filepath,
+        args.option,
+        timestamp)
     combined_df = utils.create_output_df(datalist, list_of_data)
     utils.save_output_csv(combined_df, output_path)
-    
-    return(combined_df)
+
+    return combined_df
 
 
 if __name__ == "__main__":
