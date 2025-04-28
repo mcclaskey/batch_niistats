@@ -92,8 +92,7 @@ def main():
                                           args.option,
                                           timestamp)
     combined_df = utils.create_output_df(datalist,list_of_data)
-    combined_df.to_csv(output_path, index=False)
-    print(f"\nOutput saved to file:\n{output_path}\n")
+    utils.save_output_csv(combined_df,output_path)
     
     return(combined_df)
 

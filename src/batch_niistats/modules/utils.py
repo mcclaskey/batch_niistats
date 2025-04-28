@@ -172,3 +172,8 @@ def write_output_df_path(datalist_filepath: str,
 
     return(output_path)
 
+def save_output_csv(output_df: pd.DataFrame,
+                    output_path: str):
+    """Saves output csv to file path"""
+    output_df.to_csv(output_path, index=False)
+    print(f"\nOutput saved to file:\n{output_path}\n")
