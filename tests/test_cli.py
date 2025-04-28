@@ -70,6 +70,30 @@ def test_cli_main_with_datalist2(mocker, args, expected_statistic,answer):
     assert test_result.loc[0, "note"] == "file not found"
     assert test_result.loc[13, "note"] == "file not found"
 
+@pytest.mark.parametrize("args, expected_statistic,answer", [
+    (["M"], "mean of nonzero voxels", 1039.369187),
+    (["m"], "mean of all voxels", 880.965488),
+    (["S"], "sd of nonzero voxels", 1738.948744),
+    (["s"], "sd of all voxels", 1643.971591),
+])
+def test_cli_main_with_datalist3(mocker, args, expected_statistic,answer):
+    # Mock user prompts and file saves
+    sample_datalist_path = "tests/data/sample_datalist_nospmsyntax.csv"  # Update path if necessary
+    mocker.patch("batch_niistats.cli.utils.askfordatalist", return_value=sample_datalist_path)
+    mock_save = mocker.patch("batch_niistats.cli.utils.save_output_csv", return_value=None)
+
+    # Run the main function with the given arguments
+    sys.argv = ["batch_niistats.py"] + args
+    test_result = cli.main()
+
+    # check the output
+    mock_save.assert_called_once()    # Check that the save_output_csv function was called
+    assert not test_result.empty
+    assert isinstance(test_result, pd.DataFrame)
+    assert test_result.ndim == 2
+    assert test_result.shape == (1,5)
+    assert expected_statistic in test_result.columns
+    assert np.allclose(test_result[expected_statistic], answer, atol=0.01, equal_nan=True)
 
 def test_cli_invalid_option(mocker):
     # Check that an invalid option triggers the proper error handling
