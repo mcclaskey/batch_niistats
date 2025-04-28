@@ -23,12 +23,20 @@ def test_parse_inputs():
     assert utils.parse_inputs('s') == {'omit_zeros': False, 'statistic': 'sd'}
     assert utils.parse_inputs('X') == {}
 
-def test_askfordatalist(monkeypatch):
+def test_askfordatalist(mocker):
     """Test the askfordatalist function with a mock file dialog"""
-    # Monkeypatch the filedialog.askopenfilename method to simulate file selection
-    monkeypatch.setattr("tkinter.filedialog.askopenfilename", lambda: "tests/data/sample_datalist.csv")
+    
+    mock_tk_instance = mocker.Mock()
+    mocker.patch("batch_niistats.modules.utils.tk.Tk", return_value=mock_tk_instance)
+
+    mock_askopenfilename = mocker.patch("tkinter.filedialog.askopenfilename", 
+                                        return_value="tests/data/sample_datalist.csv")
     result = utils.askfordatalist()
+
     assert result == "tests/data/sample_datalist.csv"
+    assert mock_tk_instance.withdraw.call_count == 1
+    assert mock_tk_instance.destroy.call_count == 1
+    mock_askopenfilename.assert_called_once()
 
 def test_comma_split():
     result = utils.comma_split("path/to/file.nii,2")
