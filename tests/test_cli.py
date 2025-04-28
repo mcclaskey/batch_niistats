@@ -11,7 +11,7 @@ import numpy as np
     (["s"], "sd of all voxels", pd.Series([1643.971591,1641.771553,1643.971591,0.148956,0.148956,np.nan]))
 ])
 
-def test_cli_main_with_datalist(mocker, args, expected_statistic,answer):
+def test_cli_main_with_datalist1(mocker, args, expected_statistic,answer):
     # Mock user prompts and file saves
     sample_datalist_path = "tests/data/sample_datalist.csv"  # Update path if necessary
     mocker.patch("batch_niistats.cli.utils.askfordatalist", return_value=sample_datalist_path)
@@ -49,7 +49,7 @@ def test_cli_main_with_datalist(mocker, args, expected_statistic,answer):
                 1641.771553, 1643.971591, 1641.771553, 1643.971591,
                 0.148956, 0.148956, 0.148956, 0.148956, np.nan])),
 ])
-def test_cli_main_with_datalist(mocker, args, expected_statistic,answer):
+def test_cli_main_with_datalist2(mocker, args, expected_statistic,answer):
     # Mock user prompts and file saves
     sample_datalist_path = "tests/data/sample_datalist_volumecol.csv"  # Update path if necessary
     mocker.patch("batch_niistats.cli.utils.askfordatalist", return_value=sample_datalist_path)

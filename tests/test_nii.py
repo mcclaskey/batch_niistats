@@ -108,7 +108,7 @@ def test_try_single_nii_calc(inputs, expected_statistic, answer):
     # Assuming that 'valid_files' contains files in the correct directory
     nii_rawinput = 'tests/data/dki_kfa.nii,1'
     nii_file = 'tests/data/dki_kfa.nii'
-    result = nii.single_nii_calc(nii_rawinput,
+    result = nii.try_single_nii_calc(nii_rawinput,
                                  nii_file, 
                                  0, 
                                  inputs, 
@@ -128,7 +128,7 @@ def test_try_single_nii_calc_nonexistentfile(inputs, expected_statistic, answer)
     nii_rawinput = 'tests/data/dki_kfa_missing.nii,1'
     nii_file = 'tests/data/dki_kfa_missing.nii'
     valid_files = {'tests/data/dki_kfa.nii'}
-    result = nii.single_nii_calc(nii_rawinput,
+    result = nii.try_single_nii_calc(nii_rawinput,
                                  nii_file, 
                                  0, 
                                  inputs, 
