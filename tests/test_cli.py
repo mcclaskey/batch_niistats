@@ -3,6 +3,8 @@ import sys
 from batch_niistats import cli
 import pandas as pd
 import numpy as np
+import subprocess
+import os
 
 @pytest.mark.parametrize("args, expected_statistic,answer", [
     (["M"], "mean of nonzero voxels", pd.Series([1039.369187, 1039.347735, 1039.369187, 0.279955, 0.279955, np.nan])),
@@ -108,3 +110,21 @@ def test_cli_invalid_option(mocker):
     # Run the main function and expect it to print usage info
     with pytest.raises(SystemExit):  # Expects a SystemExit due to invalid argument
         cli.main()
+def test_cli_entrypoint_runs():
+    """checks that main is called"""
+    script_path = os.path.join(os.path.dirname(__file__), 
+                               "..", 
+                               "src",
+                               "batch_niistats", 
+                               "cli.py")
+    script_path = os.path.abspath(script_path)
+
+    # Run it with a help argument to avoid running the whole thing
+    result = subprocess.run([sys.executable, 
+                             script_path, "--help"],
+                            capture_output=True, 
+                            text=True, 
+                            input="\n", 
+                            timeout=10)
+    assert result.returncode == 0
+    assert "usage:" in result.stdout
