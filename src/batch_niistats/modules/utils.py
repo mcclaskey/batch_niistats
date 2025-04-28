@@ -154,12 +154,12 @@ def create_output_df(datalist: pd.DataFrame,
 	
     return combined_df
 
-def save_output_csv(output_df: pd.DataFrame, 
-					datalist_filepath: str,
-					statistic: str,
-					timestamp: str):
-	"""Save data to output .csv in the same directory as input .csv
-
+def write_output_df_path(datalist_filepath: str,
+                         statistic: str,
+                         timestamp: str):
+    """Create name and full filepath for output .csv 
+    
+    Output file will be in the same directory as input .csv.
     File name includes the timestamp and statistic.
     """
 	
@@ -167,9 +167,8 @@ def save_output_csv(output_df: pd.DataFrame,
 	timestamp_file = timestamp_dt.strftime("%Y%m%d_%H%M%S")
 	statistic_clean = statistic.replace('-', '')
 
+    return(output_path)
 	output_dir = os.path.dirname(datalist_filepath)
 	base_name = os.path.basename(datalist_filepath).replace('.csv', f'_calc_{statistic_clean}.csv')
 	output_path = os.path.join(output_dir, f"{timestamp_file}_{base_name}")
 
-	output_df.to_csv(output_path, index=False)
-	print(f"\nOutput saved to file:\n{output_path}\n")

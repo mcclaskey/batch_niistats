@@ -88,13 +88,14 @@ def main():
 	##########################################################################
 	# create dataframe, show to user, save to csv, end program
 	##########################################################################
-	combined_df = utils.create_output_df(datalist,list_of_data)
-	utils.save_output_csv(combined_df,
-							datalist_filepath,
-							args.option,
-							timestamp)
-	
-	return(combined_df)
+    output_path = utils.write_output_df_path(datalist_filepath,
+                                          args.option,
+                                          timestamp)
+    combined_df = utils.create_output_df(datalist,list_of_data)
+    combined_df.to_csv(output_path, index=False)
+    print(f"\nOutput saved to file:\n{output_path}\n")
+    
+    return(combined_df)
 
 if __name__ == "__main__":
 	main()
