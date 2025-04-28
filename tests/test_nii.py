@@ -108,7 +108,7 @@ def test_try_single_nii_calc(inputs, expected_statistic, answer):
     # Assuming that 'valid_files' contains files in the correct directory
     nii_rawinput = 'tests/data/dki_kfa.nii,1'
     nii_file = 'tests/data/dki_kfa.nii'
-    result = nii.single_nii_calc(nii_rawinput,
+    result = nii.try_single_nii_calc(nii_rawinput,
                                  nii_file, 
                                  0, 
                                  inputs, 
@@ -128,7 +128,7 @@ def test_try_single_nii_calc_nonexistentfile(inputs, expected_statistic, answer)
     nii_rawinput = 'tests/data/dki_kfa_missing.nii,1'
     nii_file = 'tests/data/dki_kfa_missing.nii'
     valid_files = {'tests/data/dki_kfa.nii'}
-    result = nii.single_nii_calc(nii_rawinput,
+    result = nii.try_single_nii_calc(nii_rawinput,
                                  nii_file, 
                                  0, 
                                  inputs, 
@@ -140,3 +140,31 @@ def test_try_single_nii_calc_nonexistentfile(inputs, expected_statistic, answer)
     assert expected_statistic in result
     assert result[expected_statistic] == None
     assert result['note'] == 'file not found'
+
+@pytest.mark.parametrize("inputs, expected_statistic, answer", list_of_inputs_to_decorate)
+def test_try_single_nii_calc_error(mocker, inputs, expected_statistic, answer):
+    """Calculate statistics for a single file but run error"""
+
+    nii_rawinput = 'tests/data/dki_kfa.nii,1'
+    nii_file = 'tests/data/dki_kfa.nii'
+    valid_files = {'tests/data/dki_kfa.nii'}
+
+    # create mock exception and capture error
+    mock_single_nii_calc = mocker.patch('batch_niistats.cli.nii.single_nii_calc', 
+                                        side_effect=Exception("Test error"))
+    mock_print = mocker.patch("builtins.print")
+
+    result = nii.try_single_nii_calc(nii_rawinput,
+                                 nii_file, 
+                                 0, 
+                                 inputs, 
+                                 valid_files)
+    
+    # checks
+    mock_single_nii_calc.assert_called_once_with(nii_rawinput, 
+                                                 nii_file, 
+                                                 0, 
+                                                 inputs, 
+                                                 valid_files)
+    mock_print.assert_called_once_with(f"Error processing {nii_file}: Test error")
+    assert result is None

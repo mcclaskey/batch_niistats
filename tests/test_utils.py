@@ -154,3 +154,48 @@ def test_load_datalist_singlecolumnsinglecolumn():
     assert 'input_file' in datalist.columns
     assert 'file' in datalist.columns
     assert 'volume_0basedindex' in datalist.columns
+    
+@pytest.mark.parametrize("statistic, datalist_filepath", [
+    (["M"], "/path/to/datalist.csv"),
+    (["m"], "/path/to/datalist.csv"),
+    (["S"], "/path/to/another_datalist.csv"),
+    (["s"], "/path/to/another_datalist.csv")
+])
+def test_generate_output_path(statistic,datalist_filepath):
+    """Test writing output .csv full path with different inputs"""
+    timestamp = "2025.04.28 12:34:56"
+    statistic = "M"
+    datalist_filepath = "/path/to/datalist.csv"
+
+    # Expected output path
+    expected_timestamp_file = "20250428_123456"
+    expected_output_dir = os.path.dirname(datalist_filepath)
+    expected_base_name = "datalist_calc_M.csv"
+    expected_output_path = os.path.join(expected_output_dir, f"{expected_timestamp_file}_{expected_base_name}")
+
+    output_path = utils.write_output_df_path(datalist_filepath, statistic, timestamp)
+    assert output_path == expected_output_path
+
+def test_save_output_csv(mocker):
+    # Create a sample DataFrame to use in the test
+    output_df = pd.DataFrame({"col1": [1, 2], "col2": [3, 4]})
+    
+    # Define the expected output path
+    output_path = "/path/to/output_file.csv"
+    
+    # Mocking pandas DataFrame to_csv method to avoid file writing
+    mock_to_csv = mocker.patch.object(pd.DataFrame, 'to_csv')
+    mock_to_csv.return_value = None  # Mock to return None like the real method
+    
+    # Mocking the print function to capture printed messages
+    mock_print = mocker.patch("builtins.print")
+    
+    # Call the function
+    utils.save_output_csv(output_df, output_path)
+    
+    # Assert that the to_csv method was called with the expected arguments
+    mock_to_csv.assert_called_once_with(output_path, index=False)
+    
+    # Assert that the print statement was called with the expected output message
+    expected_print_message = f"\nOutput saved to file:\n{output_path}\n"
+    mock_print.assert_called_once_with(expected_print_message)
