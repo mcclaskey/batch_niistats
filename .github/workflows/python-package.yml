@@ -38,12 +38,12 @@ jobs:
         flake8 . --count --exit-zero --max-complexity=10 --statistics
     - name: Test with pytest
       run: |
-        pytest --cov=src --cov-report=term-missing
+        pytest --cov=src --cov-report=term-missing --cov-report=xml
 
     - name: Upload coverage to Codecov
       uses: codecov/codecov-action@ad3126e916f78f00edff4ed0317cf185271ccc2d
       with:
-        files: .coverage  # Path to the coverage report
+        files: coverage.xml
         flags: unittests  # Optional, flag for the type of tests
         fail_ci_if_error: false  # Set to true to fail CI on upload error
     
