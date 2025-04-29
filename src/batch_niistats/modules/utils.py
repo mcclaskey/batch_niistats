@@ -59,8 +59,9 @@ def askfordatalist() -> str:
 def comma_split(input_spm_path: str) -> dict[str, int | None]:
     """Split SPM-style path at comma, return file and 0-based vol as dict"""
     parts = input_spm_path.split(',')
-    if len(parts) > 1 and parts[1].isdigit():
-        volume_index = int(parts[1]) - 1
+    if len(parts) > 1 and parts[1].strip().isdigit():
+        vol = parts[1].strip()
+        volume_index = int(vol) - 1
     else:
         volume_index = None
 
