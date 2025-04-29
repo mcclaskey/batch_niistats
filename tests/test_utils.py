@@ -58,8 +58,8 @@ def test_parse_spmsyntax_basic():
     # Sample datalist with 3 entries, one of which has SPM-style volume index
     data = {
         "input_file": [
-            "subj1_func.nii, 1",
-            "subj2_func.nii, 2",
+            "subj1_func.nii, 1",  # space
+            "subj2_func.nii,2",  # no space
             "subj3_func.nii"  # No comma
         ]
     }
@@ -77,7 +77,7 @@ def test_parse_spmsyntax_basic():
     assert result.iloc[0]['file'] == "subj1_func.nii"
     assert result.iloc[0]['volume_spm_0basedindex'] == 0
 
-    assert result.iloc[1]['input_file'] == "subj2_func.nii, 2"
+    assert result.iloc[1]['input_file'] == "subj2_func.nii,2"
     assert result.iloc[1]['file'] == "subj2_func.nii"
     assert result.iloc[1]['volume_spm_0basedindex'] == 1
 
