@@ -19,10 +19,14 @@ def test_get_timestamp():
 
 def test_parse_inputs():
     """Test the parsing of input options"""
-    assert utils.parse_inputs('M') == {'omit_zeros': True, 'statistic': 'mean'}
-    assert utils.parse_inputs('m') == {'omit_zeros': False, 'statistic': 'mean'}
-    assert utils.parse_inputs('S') == {'omit_zeros': True, 'statistic': 'sd'}
-    assert utils.parse_inputs('s') == {'omit_zeros': False, 'statistic': 'sd'}
+    assert utils.parse_inputs('M') == {'omit_zeros': True,
+                                       'statistic': 'mean'}
+    assert utils.parse_inputs('m') == {'omit_zeros': False,
+                                       'statistic': 'mean'}
+    assert utils.parse_inputs('S') == {'omit_zeros': True,
+                                       'statistic': 'sd'}
+    assert utils.parse_inputs('s') == {'omit_zeros': False,
+                                       'statistic': 'sd'}
     assert utils.parse_inputs('X') == {}
 
 
@@ -30,10 +34,13 @@ def test_askfordatalist(mocker):
     """Test the askfordatalist function with a mock file dialog"""
 
     mock_tk_instance = mocker.Mock()
-    mocker.patch("batch_niistats.modules.utils.tk.Tk", return_value=mock_tk_instance)
+    mocker.patch("batch_niistats.modules.utils.tk.Tk",
+                 return_value=mock_tk_instance)
 
-    mock_askopenfilename = mocker.patch("tkinter.filedialog.askopenfilename",
-                                        return_value="tests/data/sample_datalist.csv")
+    mock_askopenfilename = mocker.patch(
+        "tkinter.filedialog.askopenfilename",
+        return_value="tests/data/sample_datalist.csv"
+        )
     result = utils.askfordatalist()
 
     assert result == "tests/data/sample_datalist.csv"
@@ -150,7 +157,10 @@ def test_prioritize_volume_default_to_zero_when_both_missing():
 
 def test_prioritize_volume_mixed_cases():
     df = pd.DataFrame({
-        "input_file": ["dki_kfa.nii", "fmri_4d.nii.gz", "dki_kfa.nii", "fmri_4d.nii.gz"],
+        "input_file": ["dki_kfa.nii",
+                       "fmri_4d.nii.gz",
+                       "dki_kfa.nii",
+                       "fmri_4d.nii.gz"],
         "volume_spm_0basedindex": [1, 5, np.nan, np.nan],
         "volume_0basedindex": [1, 4, np.nan, 9]
     })
@@ -166,7 +176,9 @@ def test_prioritize_volume_mixed_cases():
 def test_load_datalist_singlecolumnsinglecolumn():
     """Test loading and parsing the .csv datalist"""
     # Prepare a mock CSV file
-    datalist_filepath = os.path.join(os.path.dirname(__file__), "data", "sample_datalist.csv")
+    datalist_filepath = os.path.join(os.path.dirname(__file__),
+                                     "data",
+                                     "sample_datalist.csv")
     datalist = utils.load_datalist(datalist_filepath)
 
     assert isinstance(datalist, pd.DataFrame)
@@ -191,9 +203,14 @@ def test_generate_output_path(statistic, datalist_filepath):
     expected_timestamp_file = "20250428_123456"
     expected_output_dir = os.path.dirname(datalist_filepath)
     expected_base_name = "datalist_calc_M.csv"
-    expected_output_path = os.path.join(expected_output_dir, f"{expected_timestamp_file}_{expected_base_name}")
+    expected_output_path = os.path.join(
+        expected_output_dir,
+        f"{expected_timestamp_file}_{expected_base_name}"
+        )
 
-    output_path = utils.write_output_df_path(datalist_filepath, statistic, timestamp)
+    output_path = utils.write_output_df_path(datalist_filepath,
+                                             statistic,
+                                             timestamp)
     assert output_path == expected_output_path
 
 
@@ -206,7 +223,7 @@ def test_save_output_csv(mocker):
 
     # Mocking pandas DataFrame to_csv method to avoid file writing
     mock_to_csv = mocker.patch.object(pd.DataFrame, 'to_csv')
-    mock_to_csv.return_value = None  # Mock to return None like the real method
+    mock_to_csv.return_value = None
 
     # Mocking the print function to capture printed messages
     mock_print = mocker.patch("builtins.print")
@@ -214,9 +231,9 @@ def test_save_output_csv(mocker):
     # Call the function
     utils.save_output_csv(output_df, output_path)
 
-    # Assert that the to_csv method was called with the expected arguments
+    # Assert that the to_csv method was called w the expected arguments
     mock_to_csv.assert_called_once_with(output_path, index=False)
 
-    # Assert that the print statement was called with the expected output message
+    # Assert that the print statement w the expected output message
     expected_print_message = f"\nOutput saved to file:\n{output_path}\n"
     mock_print.assert_called_once_with(expected_print_message)

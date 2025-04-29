@@ -39,10 +39,14 @@ def main():
             "0-based indexing (e.g. use 0 to specify the first volume and 1\n"
             "for the second, etc).\n\n"
             "In lieu of a 'volume_0basedindex' column, volumes can also be\n"
-            "specified in the input_file column using SPM syntax where ',N' is\n"
-            "placed after the filename. N indicates volume using 1-based indexing.\n\n"
-            "The 'volume_0basedindexing' column or SPM synax can be omitted if\n"
-            "all files are 3D NIfTIs or if you only want to calculate statistics\n"
+            "specified in the input_file column using SPM syntax where ',N' "
+            "is\n"
+            "placed after the filename. N indicates volume using 1-based "
+            "indexing.\n\n"
+            "The 'volume_0basedindexing' column or SPM synax can be "
+            "omitted if\n"
+            "all files are 3D NIfTIs or if you only want to calculate "
+            "statistics\n"
             "on the first volume of each image.\n\n"
             ),
         formatter_class=argparse.RawDescriptionHelpFormatter,
@@ -88,7 +92,9 @@ def main():
                                                  args[2],
                                                  inputs,
                                                  valid_files),
-            zip(datalist['input_file'], datalist['file'], datalist['volume_0basedindex'])
+            zip(datalist['input_file'],
+                datalist['file'],
+                datalist['volume_0basedindex'])
             )
         list_of_data = list(single_nii_results)
 

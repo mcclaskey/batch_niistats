@@ -28,7 +28,7 @@ def load_nii(
 
 
 def mean_nii(
-        data_array: np.ndarray,
+        nii_array: np.ndarray,
         omit_zeros: bool
         ) -> float:
     """Calculate mean of a 3D NumPy array, return single number
@@ -36,7 +36,7 @@ def mean_nii(
     If omit_zeros is True, only nonzero voxels are included in calculation.
     """
 
-    return data_array[data_array > 0].mean() if omit_zeros else data_array.mean()
+    return nii_array[nii_array > 0].mean() if omit_zeros else nii_array.mean()
 
 
 def sd_nii(
