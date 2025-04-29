@@ -39,3 +39,12 @@ jobs:
     - name: Test with pytest
       run: |
         pytest --cov=src --cov-report=term-missing
+
+    - name: Upload coverage to Codecov
+      uses: codecov/codecov-action@v4
+      with:
+        token: ${{ secrets.CODECOV_TOKEN }}  # Optional, for private repos
+        files: .coverage  # Path to the coverage report
+        flags: unittests  # Optional, flag for the type of tests
+        fail_ci_if_error: false  # Set to true to fail CI on upload error
+    

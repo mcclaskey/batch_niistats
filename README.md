@@ -1,3 +1,5 @@
+[![codecov](https://codecov.io/gh/your-username/your-repo/branch/main/graph/badge.svg)](https://codecov.io/gh/your-username/your-repo)
+
 # batch_niistats
 Small set of functions that calculate statistics on a batch of 3D nifti files and return the output as a .csv file. Pure python code that works very quickly on all operating systems.
 
