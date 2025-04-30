@@ -30,33 +30,50 @@ def main():
     ##########################################################################
     parser = argparse.ArgumentParser(
         description=(
-            "Calculate statistics from a list of .nii files.\n\n"
+            "Calculate descriptive statistics on a list of 3D .nii files\n"
+            "and return the result as a csv file.\n\n"
+            "Specify which statistic to calculate using the 1st positional\n"
+            "argument, which must be one of the following:\n"
+            "  M: calculate mean of non-zero voxels in image\n"
+            "  m: calculate mean of all voxels in image\n"
+            "  S: calculate standard deviation of non-zero voxels in image\n"
+            "  s: calculate standard deviation of all voxels in image\n\n"
+            "Example: batch_niistats M\n\n"
             "Once the program starts, you will prompted for a list of .nii\n"
             "files to process. This list must be a CSV file with columns\n"
-            "'input_file' and (optionally) 'volume_0basedindexing'.\n\n"
-            "'input_file' lists the absolute paths to each .nii file and\n"
-            "'volume_0basedindexing' indicates the volume to read, using\n"
-            "0-based indexing (e.g. use 0 to specify the first volume and 1\n"
-            "for the second, etc).\n\n"
+            "'input_file' and (optionally) 'volume_0basedindex'. Row 1 must\n"
+            "contain column headers.\n\n"
+            "The 'input_file' column must contain the absolute paths to each"
+            "\n.nii. If your files are 4D files and you would like to read a"
+            "\nvolume other than the 1st, use the optional "
+            "'volume_0basedindex'\ncolumn to specify which volume to read "
+            "using 0-based indexing\n(e.g. use 0 to specify the first "
+            "volume, 1 for the second, etc).\nTo read multiple volumes/"
+            "timepoints of a 4D .nii file, list each\nvolume as a separate "
+            "row in the input .csv file.\n\n"
             "In lieu of a 'volume_0basedindex' column, volumes can also be\n"
-            "specified in the input_file column using SPM syntax where ',N' "
-            "is\n"
-            "placed after the filename. N indicates volume using 1-based "
-            "indexing.\n\n"
-            "The 'volume_0basedindexing' column or SPM synax can be "
-            "omitted if\n"
-            "all files are 3D NIfTIs or if you only want to calculate "
-            "statistics\n"
-            "on the first volume of each image.\n\n"
+            "specified in the input_file column using SPM syntax where ',V' "
+            "is\nplaced after the filename, e.g. ''path/to/my/file.nii,V'' "
+            "and\nindicates volume using 1-based indexing. For example,\n"
+            "''path/to/my/file.nii,1'' reads the first volume of file.nii."
+            "\n\nSupport for SPM syntax is intended to facilitate copying to "
+            "and\nfrom SPM but is otherwise not recommended. If you define\n"
+            "filenames in this way, omit single quotations at the start and\n"
+            "end of each string that are sometimes retained during SPM\n"
+            "copy/paste.\n\nThe 'volume_0basedindex' column or the SPM synax"
+            " can be omitted\nif all files are 3D NIfTIs or if you only want "
+            "to calculate\nstatistics on the first volume of each image.\n\n"
             ),
-        formatter_class=argparse.RawDescriptionHelpFormatter,
+        formatter_class=argparse.RawTextHelpFormatter,
     )
     parser.add_argument(
         "option",
         choices=["M", "m", "S", "s"],
-        help="Statistical option: M (mean, nonzero), m (mean, all), "
-             "S (sd, nonzero), s (sd, all)"
-    )
+        help="Statistic to calculate:\n"
+         "  M: mean of nonzero voxels\n"
+         "  m: mean of all voxels\n"
+         "  S: stddev of nonzero voxels\n"
+         "  s: stddev of all voxels")
 
     args = parser.parse_args()
 

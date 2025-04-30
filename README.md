@@ -1,6 +1,11 @@
-[![codecov](https://codecov.io/gh/mcclaskey/batch_niistats/branch/main/graph/badge.svg)](https://codecov.io/gh/mcclaskey/batch_niistats)
+# batch_niistats: calculate stats on a batch of .nii files
+![Python Versions](https://img.shields.io/badge/python-3.11%20|%203.12%20|%203.13-blue) [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE) [![batch_niistats-tests](https://img.shields.io/github/actions/workflow/status/mcclaskey/batch_niistats/python-package.yml?label=batch_niistats-tests&logo=github)](https://github.com/mcclaskey/batch_niistats/actions/workflows/python-package.yml)
+ [![codecov](https://codecov.io/gh/mcclaskey/batch_niistats/branch/main/graph/badge.svg)](https://codecov.io/gh/mcclaskey/batch_niistats)
 
-# batch_niistats
+
+
+
+
 Small set of functions that calculate statistics on a batch of 3D nifti files and return the output as a .csv file. Pure python code that works very quickly on all operating systems.
 
 Statistics (mean/standard deviation) can be calculated for all voxels in the .nii, or for only nonzero voxels. This is the equivalent of fslstats with the -M/-S option or -m/-s option, respectively.
@@ -27,7 +32,7 @@ If volumes are specified using both SPM syntax and using a `volume_0basedindex` 
 
 ## 2. Run scripts 
 
-Open a terminal (in unix/linux/WSL) or command prompt (in Windows). Activate your project environment and cd to the project directory, then run the following line:
+Open a terminal (in unix/linux/WSL) or command prompt (in Windows), activate your virtual environment (if necessary), then run the following:
 ```
 batch_niistats [option]
 ```
@@ -47,14 +52,22 @@ The program will start by opening a file selection dialogue box. Select the .csv
 
 When it is done you will have a .csv file in the same directory as the input .csv file. The output file's name will be be the same as the input file's name but will have a timestamp and the suffix that indicates the option specified as input. 
 
-# Setup 
-## Basic Steps
-1. create/activate a project environment
-2. cd to where you store repos and clone this repo using ```git clone https://github.com/mcclaskey/batch_niistats.git```
-3. cd to repo directory
-4. run `pip install -e .` to install required packages into your environment
+# How to install
+You can install `batch_niistats` from the source repository with the command `pip install git+https://github.com/mcclaskey/batch_niistats.git@main` or by cloning the repository and installing from the local directory (recommended). To install from a local directory, first cd to where you store all repos and run the following:
+```
+git clone https://github.com/mcclaskey/batch_niistats.git
+cd batch_niistats
+pip install -e .
+```
+If you used a local install, you can easily update the code at a later date using the following lines:
 
-## venv
+```
+git pull
+pip install -e .
+```
+
+It is highly recommended that you run the install (by either method) inside a virtual environment. 
+
 If you do not have a way to manage environments, here is a quick way to create and activate a python environment for this project:
 
 Create the environment (do this only once):
