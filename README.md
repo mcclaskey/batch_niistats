@@ -15,7 +15,7 @@ Statistics (mean/standard deviation) can be calculated for all voxels in the nif
 
 # Instructions
 
-## 1. Create a list of NIfTI files
+### 1. Create a list of NIfTI files
 Put together a list of your NIfTI files and save this list as a .csv file where the header row says `input_file` and each subsequent row contains the full path to a NIfTI file. `batch_niistats` can read both zipped (.nii.gz) and unzipped (.nii) NIfTI files.
 
 If your files are 4D files and you would like to read a volume other than the first, also include a column called `volume_0basedindex` that specifies which volume to read using 0-based indexing (e.g. use 0 to specify the first volume, 1 for the second, etc). 0-based indexing is used in the style of python, nibabel, FSL, etc. To read multiple volumes/timepoints of a 4D nifti file, list each volume as a separate row in the input datalist.
@@ -30,7 +30,7 @@ Support for SPM syntax is intended to facilitate copying to and from SPM but is 
 
 If volumes are specified using both SPM syntax and using a `volume_0basedindex` column, the information in the `volume_0basedindex` column will be preferentially used. If no information is provided, the first volume of each image will be read.
 
-## 2. Run scripts 
+### 2. Run scripts 
 
 Open a terminal (in unix/linux/WSL) or command prompt (in Windows), activate your virtual environment (if necessary), then run the following:
 ```
@@ -53,7 +53,9 @@ The program will start by opening a file selection dialogue box. Select the .csv
 When it is done you will have a .csv file in the same directory as the input .csv file. This output file will have the same base name as the input file but will also be prepended with a timestamp and appended with a suffix that denotes the option specified as input. 
 
 # How to install
-You can install `batch_niistats` from the source repository with the command `pip install git+https://github.com/mcclaskey/batch_niistats.git@main` or by cloning the repository and installing from the local directory (recommended). To install from a local directory, first cd to where you store all repos and run the following:
+You can install `batch_niistats` from the source repository with the command `pip install git+https://github.com/mcclaskey/batch_niistats.git@main` or by cloning the repository and installing from the local directory (recommended). It is highly recommended that you run the install (by either method) inside a virtual environment (see below). 
+
+To install from a local directory, first cd to where you store all repos, create or activate your project environment (if using), and run the following:
 ```
 git clone https://github.com/mcclaskey/batch_niistats.git
 cd batch_niistats
@@ -66,23 +68,25 @@ git pull
 pip install -e .
 ```
 
-It is highly recommended that you run the install (by either method) inside a virtual environment. 
+### A note on virtual environments if you are new to python's venv (disclaimer: personal opinions included)
+If you don't already have a way to manage python environments and are looking to find one, I highly recommend Doug Hellmann's [virtualenvwrapper](https://virtualenvwrapper.readthedocs.io/en/latest/) tool. It's a user-friendly wrapper for virtualenv that organizes all your environments for you and makes them easy to work with. 
 
-If you do not have a way to manage environments, here is a quick way to create and activate a python environment for this project:
+Conda/Anaconda also provide tools for environment management, although I generally find these more difficult to use unless you work with them every day (in which case you probably don't need advice on venv). 
 
-Create the environment (do this only once):
-```
-python3 -m venv batch_niistats_env
-```
+Otherwise, you can quickly set up and activate a Python environment for this project using these steps:
 
-Then to activate the environment: 
+1. **Create a virtual environment** inside the project folder. Run this only once, after navigating into the project directory with `cd batch_niistats` but before the `pip install -e .` line above:
 
-On Windows:
-```
-source batch_niistats_env\Scripts\activate
-```
+    **On Windows:**
+    ```
+    py -m venv venv
+    ```
 
-For linux/unix:
-```
-source batch_niistats_env/bin/activate 
-```
+    **On MacOS/linux (Posix):**
+    ```
+    python3 -m venv venv
+    ```
+
+    This creates a virtual environment called `venv` and stores it inside a folder (also called `venv`) in the project directory.
+
+2. **Activate the environment** each time you want to work on the project, using the appropriate command for your OS and shell (see the table on [this page](https://docs.python.org/3/library/venv.html#how-venvs-work) for exact syntax), together with your environment's full path.
