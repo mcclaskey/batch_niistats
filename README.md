@@ -6,19 +6,19 @@
 
 
 
-Small set of functions that calculate statistics on a batch of 3D nifti files and return the output as a .csv file. Pure python code that works very quickly on all operating systems.
+Small set of functions that calculate statistics on a batch of 3D NIfTI files and return the output as a .csv file. Pure python code that works very quickly on all operating systems.
 
-Statistics (mean/standard deviation) can be calculated for all voxels in the .nii, or for only nonzero voxels. This is the equivalent of fslstats with the -M/-S option or -m/-s option, respectively.
+Statistics (mean/standard deviation) can be calculated for all voxels in the nifti, or for only nonzero voxels. This is the equivalent of fslstats with the -M/-S option or -m/-s option, respectively.
 
 # Requirements
 * python3.11+
 
 # Instructions
 
-## 1. Create a list of .nii files
-Put together a list of your .nii files and save this list as a .csv file where the header row says `input_file` and each subsequent row contains the full path to a .nii file. 
+## 1. Create a list of NIfTI files
+Put together a list of your NIfTI files and save this list as a .csv file where the header row says `input_file` and each subsequent row contains the full path to a NIfTI file. `batch_niistats` can read both zipped (.nii.gz) and unzipped (.nii) NIfTI files.
 
-If your files are 4D files and you would like to read a volume other than the first, also include a column called `volume_0basedindex` that specifies which volume to read using 0-based indexing (e.g. use 0 to specify the first volume, 1 for the second, etc). 0-based indexing is used in the style of python, nibabel, FSL, etc. To read multiple volumes/timepoints of a 4D .nii file, list each volume as a separate row in the input datalist.
+If your files are 4D files and you would like to read a volume other than the first, also include a column called `volume_0basedindex` that specifies which volume to read using 0-based indexing (e.g. use 0 to specify the first volume, 1 for the second, etc). 0-based indexing is used in the style of python, nibabel, FSL, etc. To read multiple volumes/timepoints of a 4D nifti file, list each volume as a separate row in the input datalist.
 
 Alternately, you can specify the volume using SPM-style syntax in the contents of the `input_file` column, as follows: 
 ```
@@ -26,7 +26,7 @@ full\path\to\your.nii,V
 ```
 where V is an integer that indicates the volume number using 1-based indexing, e.g. `path\to\my.nii,1` for the first volume of my.nii. 
 
-Support for SPM syntax is intended to facilitate copying to and from SPM but is otherwise not recommended. If you define filenames in this way, omit single quotations at the start and end of each string that are sometimes retained during SPM copy/paste. `batch_niistats.py` will not strip single quotations from file paths because they could theoretically be part of the file name.
+Support for SPM syntax is intended to facilitate copying to and from SPM but is otherwise not recommended. If you define filenames in this way, omit single quotations at the start and end of each string that are sometimes retained during SPM copy/paste. `batch_niistats` will not strip single quotations from file paths because they could theoretically be part of the file name.
 
 If volumes are specified using both SPM syntax and using a `volume_0basedindex` column, the information in the `volume_0basedindex` column will be preferentially used. If no information is provided, the first volume of each image will be read.
 
