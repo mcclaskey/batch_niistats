@@ -50,7 +50,7 @@ batch_niistats M
 
 The program will start by opening a file selection dialogue box. Select the .csv file you created in step 1 and press ok. Wait while the program runs.
 
-When it is done you will have a .csv file in the same directory as the input .csv file. The output file's name will be be the same as the input file's name but will have a timestamp and the suffix that indicates the option specified as input. 
+When it is done you will have a .csv file in the same directory as the input .csv file. This output file will have the same base name as the input file but will also be prepended with a timestamp and appended with a suffix that denotes the option specified as input. 
 
 # How to install
 You can install `batch_niistats` from the source repository with the command `pip install git+https://github.com/mcclaskey/batch_niistats.git@main` or by cloning the repository and installing from the local directory (recommended). To install from a local directory, first cd to where you store all repos and run the following:
