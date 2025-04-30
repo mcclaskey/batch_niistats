@@ -26,7 +26,7 @@ full\path\to\your.nii,V
 ```
 where V is an integer that indicates the volume number using 1-based indexing, e.g. `path\to\my.nii,1` for the first volume of my.nii. 
 
-Support for SPM syntax is intended to facilitate copying to and from SPM but is otherwise not recommended. If you define filenames in this way, omit single quotations at the start and end of each string that are sometimes retained during SPM copy/paste. `batch_niistats` will not strip single quotations from file paths because they could theoretically be part of the file name.
+Support for SPM syntax is intended to facilitate copying to and from SPM but is otherwise not recommended. If you define filenames in this way, omit single quotations at the start and end of each string that are sometimes retained during SPM copy/paste. `batch_niistats` does not strip single quotations from file paths because they could be valid characters in some filenames.
 
 If volumes are specified using both SPM syntax and using a `volume_0basedindex` column, the information in the `volume_0basedindex` column will be preferentially used. If no information is provided, the first volume of each image will be read.
 
@@ -48,7 +48,7 @@ For example, to calculate mean across only nonzero voxels, type:
 batch_niistats M
 ```
 
-The program will start by opening a file selection dialogue box. Select the .csv file you created in step 1 and press ok. Wait while the program runs.
+The program will start by opening a file selection dialogue box. Select the .csv file you created in step 1 and press ok. Wait for the program to finish.
 
 When it is done you will have a .csv file in the same directory as the input .csv file. This output file will have the same base name as the input file but will also be prepended with a timestamp and appended with a suffix that denotes the option specified as input. 
 
@@ -82,7 +82,7 @@ Otherwise, you can quickly set up and activate a Python environment for this pro
     py -m venv venv
     ```
 
-    **On MacOS/linux (Posix):**
+    **On macOS/linux (Posix):**
     ```
     python3 -m venv venv
     ```
