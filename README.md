@@ -53,7 +53,9 @@ The program will start by opening a file selection dialogue box. Select the .csv
 When it is done you will have a .csv file in the same directory as the input .csv file. This output file will have the same base name as the input file but will also be prepended with a timestamp and appended with a suffix that denotes the option specified as input. 
 
 # How to install
-You can install `batch_niistats` from the source repository with the command `pip install git+https://github.com/mcclaskey/batch_niistats.git@main` or by cloning the repository and installing from the local directory (recommended). It is highly recommended that you run the install (by either method) inside a virtual environment (see below). 
+You can install `batch_niistats` from the source repository with the command `pip install git+https://github.com/mcclaskey/batch_niistats.git@main` or by cloning the repository and installing from the local directory (recommended). 
+
+It is highly recommended that you run the install (by either method) inside a virtual environment (see below). 
 
 To install from a local directory, first cd to where you store all repos, create or activate your project environment (if using), and run the following:
 ```
@@ -69,7 +71,7 @@ pip install -e .
 ```
 
 ### A note on virtual environments if you are new to python's venv (disclaimer: personal opinions included)
-If you don't already have a way to manage python environments and are looking to find one, I highly recommend Doug Hellmann's [virtualenvwrapper](https://virtualenvwrapper.readthedocs.io/en/latest/) tool. It's a user-friendly wrapper for virtualenv that organizes all your environments for you and makes them easy to work with. 
+If you don't already have a way to manage python environments and are looking to find one, I highly recommend Doug Hellmann's [virtualenvwrapper](https://virtualenvwrapper.readthedocs.io/en/latest/) tool. It's a clean, organized, and user-friendly wrapper for Ian Bicking's [virtualenv](https://pypi.org/project/virtualenv/) that stores all your environments in one place and makes them easy to work with. 
 
 Conda/Anaconda also provide tools for environment management, although I generally find these more difficult to use unless you work with them every day (in which case you probably don't need advice on venv). 
 
