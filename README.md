@@ -64,7 +64,7 @@ Install a stable version of `batch_niistats` from PyPI using the command:
 pip install batch-niistats
 ```
 
-> **⚠️ IMPORTANT** 
+> **⚠️ IMPORTANT**  
 > When installing from pypi, use a dash instead of an underscore in the package name
 
 
