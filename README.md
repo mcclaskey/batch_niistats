@@ -2,9 +2,7 @@
 [![Python Versions](https://img.shields.io/badge/python-3.11%20|%203.12%20|%203.13-blue)](https://pypi.org/project/batch-niistats/) [![PyPI version](https://badge.fury.io/py/batch-niistats.svg)](https://pypi.org/project/batch-niistats/) [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](https://github.com/mcclaskey/batch_niistats/blob/main/LICENSE) [![batch_niistats-tests](https://img.shields.io/github/actions/workflow/status/mcclaskey/batch_niistats/python-package.yml?label=batch_niistats-tests&logo=github)](https://pypi.org/project/batch-niistats/) [![codecov](https://codecov.io/gh/mcclaskey/batch_niistats/branch/main/graph/badge.svg)](https://pypi.org/project/batch-niistats/) 
 
 
-Calculate statistics on a batch of 3D NIfTI files and return the output as a `.csv` file.
-
-Statistics (mean/standard deviation) can be calculated for all voxels in the nifti, or for only nonzero voxels. This equivalent to using FSL's `fslstats` with the `-M`/`-S` option or `-m`/`-s` option, respectively.
+Calculate statistics on a batch of 3D NIfTI files and return the output as a `.csv` file. Statistics (mean/standard deviation) can be calculated for all voxels in the 3D nifti, or for only nonzero voxels. 
 
 `batch_niistats` can read both zipped (`.nii.gz`) and unzipped (`.nii`) NIfTI files.
 
@@ -14,14 +12,14 @@ Statistics (mean/standard deviation) can be calculated for all voxels in the nif
 # Instructions
 
 ### 1. Create a list of NIfTI files
-Create a `.csv` file that lists the NIfTI files to process, with the following structure:
-- the first column contains the full paths to your NIfTI files, including the extension (`.nii` or `nii.gz`)
+Create a `.csv` file that lists the 3D NIfTI files to process, with the following structure:
+- the first column contains the full paths to your 3D NIfTI files, including the extension (`.nii` or `nii.gz`)
 - the first column's header is `input_file` 
 
-#### If you have 4D files:
-To calculate statistics on a volume other than the first, add a second column called `volume_0basedindex` that specifies which volume to read using **0-based indexing** (_e.g._ `0` for the first volume, `1` for the second, etc). 0-based indexing matches the conventions of python, NiBabel, FSL, etc. 
+Statistics are calculated only for 3D volumes, and each input row must point to a single volume of a file (or a single 3D NIfTI file). 
 
-To read multiple volumes of the same 4D nifti file, list each volume as a separate row in the input `.csv` file.
+#### If you have 4D files:
+To calculate statistics on a volume other than the first, add a second column called `volume_0basedindex` that specifies which volume to read using **0-based indexing** (_e.g._ `0` for the first volume, `1` for the second, etc). 0-based indexing matches the conventions of python, NiBabel, FSL, etc. To read multiple volumes of the same 4D nifti file, list each volume as a separate row in the input `.csv` file.
 
 Alternatively, you can specify the volume using SPM-style syntax in the `input_file` column, as follows: 
 ```
