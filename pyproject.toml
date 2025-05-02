@@ -3,15 +3,16 @@ requires = ["setuptools>=61.0", "wheel"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "batch_niistats"
-version = "0.1.0"
-description = "Batch calculator for .nii file statistics."
+name = "batch-niistats"
+version = "1.0.1"
+description = "Calculate descriptive statistics for large numbers of 3D .nii files"
 readme = "README.md"
 requires-python = ">=3.11"
-license = { text = "MIT" }
+license = "MIT"
+license-files = ["LICENSE"]
 
 authors = [
-  { name = "CMcC", email = "carolyn.mcclaskey@gmail.com" }
+  { name = "Carolyn McClaskey", email = "carolyn.mcclaskey@gmail.com" }
 ]
 
 dependencies = [
@@ -21,9 +22,19 @@ dependencies = [
 ]
 
 classifiers = [
-  "Programming Language :: Python :: 3",
-  "License :: OSI Approved :: MIT License",
-  "Operating System :: OS Independent"
+  "Programming Language :: Python :: 3.11",
+  "Programming Language :: Python :: 3.12",
+  "Programming Language :: Python :: 3.13",
+  "Operating System :: OS Independent",
+  "Programming Language :: Python :: 3 :: Only",
+  "Intended Audience :: Developers",
+  "Intended Audience :: Science/Research",
+  "Intended Audience :: Healthcare Industry",
+  "Development Status :: 5 - Production/Stable",
+  "Environment :: Console",
+  "Topic :: Scientific/Engineering :: Image Processing",
+  "Topic :: Scientific/Engineering :: Bio-Informatics",
+  "Topic :: Scientific/Engineering :: Medical Science Apps"
 ]
 
 [project.urls]
@@ -32,11 +43,11 @@ Homepage = "https://github.com/mcclaskey/batch_niistats"
 [project.scripts]
 batch_niistats = "batch_niistats.cli:main"
 
-[tool.entry_points]
-console_scripts = [
-    "batch_niistats=batch_niistats.cli:main",
-]
-
 [project.optional-dependencies]
 dev = ["pytest","pytest-mock","pytest-cov","flake8"]
 
+[tool.setuptools.package-dir]
+"" = "src"
+
+[tool.setuptools.packages.find]
+where = ["src"]
