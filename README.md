@@ -86,7 +86,7 @@ pip install -e .
 ```
 
 ## A note on virtual environments if you are new to python's venv (disclaimer: personal opinions included)
-If you need a way to manage python environments, I highly recommend Doug Hellmann's [virtualenvwrapper](https://virtualenvwrapper.readthedocs.io/en/latest/). It's a clean, organized, and user-friendly wrapper for Ian Bicking's [virtualenv](https://pypi.org/project/virtualenv/) that stores all your environments in one place with minimal fuss. 
+If you need a way to manage python environments, I highly recommend Doug Hellmann's [virtualenvwrapper](https://virtualenvwrapper.readthedocs.io/en/latest/). It's a clean, organized, and user-friendly wrapper for Ian Bicking's [virtualenv](https://pypi.org/project/virtualenv/) that stores all your environments in one place with minimal fuss. It's built for POSIX but there is a Windows version [here](https://pypi.org/project/virtualenvwrapper-win/). 
 
 Conda/Anaconda also provides tools for environment management, although I generally find these more difficult to use unless you work with them every day (in which case you probably don't need advice on venv). 
 
