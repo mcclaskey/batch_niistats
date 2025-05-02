@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "batch-niistats"
-version = "1.0.0.post1"
+version = "1.0.1"
 description = "Calculate descriptive statistics for large numbers of 3D .nii files"
 readme = "README.md"
 requires-python = ">=3.11"
