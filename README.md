@@ -3,9 +3,11 @@
  [![codecov](https://codecov.io/gh/mcclaskey/batch_niistats/branch/main/graph/badge.svg)](https://codecov.io/gh/mcclaskey/batch_niistats)
 
 
-Calculate statistics on a batch of 3D NIfTI files and return the output as a `.csv` file. `batch_niistats` can read both zipped (`.nii.gz`) and unzipped (`.nii`) NIfTI files.
+Calculate statistics on a batch of 3D NIfTI files and return the output as a `.csv` file.
 
 Statistics (mean/standard deviation) can be calculated for all voxels in the nifti, or for only nonzero voxels. This equivalent to using FSL's `fslstats` with the `-M`/`-S` option or `-m`/`-s` option, respectively.
+
+`batch_niistats` can read both zipped (`.nii.gz`) and unzipped (`.nii`) NIfTI files.
 
 ## Requirements
 * python3.11+
@@ -28,8 +30,7 @@ full\path\to\your.nii,V
 ```
 where V is an integer that indicates the volume number using **1-based indexing**, _e.g._ `path\to\my.nii,1` for the first volume of `my.nii`. 
 
-> [!NOTE] 
-> Support for SPM syntax is intended to facilitate copying to and from SPM but is otherwise not recommended. If you define filenames in this way, omit single quotations at the start and end of each string that are sometimes retained during SPM copy/paste. `batch_niistats` does not strip single quotations from file paths because they could be valid characters in some filenames.
+Support for SPM syntax is intended to facilitate copying to and from SPM but is otherwise not recommended. If you define filenames in this way, omit single quotations at the start and end of each string that are sometimes retained during SPM copy/paste. `batch_niistats` does not strip single quotations from file paths because they could be valid characters in some filenames.
 
 If volumes are specified using both SPM syntax and using a `volume_0basedindex` column, the information in the `volume_0basedindex` column will be preferentially used. If no information is provided, `batch_niistats` will read the first volume of each image by default.
 
@@ -62,8 +63,10 @@ Install a stable version of `batch_niistats` from PyPI using the command:
 ```
 pip install batch-niistats
 ```
-> [!NOTE]
-> The pypi package uses a dash instead of an underscore
+
+> **⚠️ IMPORTANT** 
+> When installing from pypi, use a dash instead of an underscore in the package name
+
 
 To upgrade an existing install, use: 
 ```
@@ -93,9 +96,9 @@ Conda/Anaconda also provides tools for environment management, although I genera
 Otherwise, you can quickly set up and activate a Python environment for this project using these steps:
 
 #### 1. Create a virtual environment (do this only once, before running `pip install`)
-Navigate to wherever you would like to store your virtual environment. If you have cloned a local copy of `batch_niistats`, you could create the venv inside the repo after navigating into the project directory with `cd batch_niistats`.
+Navigate to wherever you would like to store your virtual environment. Create the environment using the following:
 
-Use this command if on Windows:
+If on Windows:
 ```
 py -m venv batch_niistats_venv
 ```
@@ -106,6 +109,9 @@ python3 -m venv batch_niistats_venv
 ```
 
 This creates a virtual environment called `batch_niistats_venv`.
+
+> **💡 TIP**  
+> If you have cloned a local copy of `batch_niistats`, you can create the virtual environment inside the repo by running the above command after navigating into the project directory with `cd batch_niistats` and before running `pip install`
 
 #### 2. Activate the environment each time you want to work on the project
 Before working on the project, activate the environment using the appropriate command for your OS and shell (see the table on [this page](https://docs.python.org/3/library/venv.html#how-venvs-work) for exact syntax), together with your environment's path.
