@@ -1,6 +1,5 @@
-# batch_niistats: calculate stats on a batch of NIfTI files
-![Python Versions](https://img.shields.io/badge/python-3.11%20|%203.12%20|%203.13-blue) [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE) [![batch_niistats-tests](https://img.shields.io/github/actions/workflow/status/mcclaskey/batch_niistats/python-package.yml?label=batch_niistats-tests&logo=github)](https://github.com/mcclaskey/batch_niistats/actions/workflows/python-package.yml)
- [![codecov](https://codecov.io/gh/mcclaskey/batch_niistats/branch/main/graph/badge.svg)](https://codecov.io/gh/mcclaskey/batch_niistats)
+# batch_niistats: calculate statistics on a batch of 3D NIfTI files
+[![Python Versions](https://img.shields.io/badge/python-3.11%20|%203.12%20|%203.13-blue)](https://pypi.org/project/batch-niistats/) [![PyPI version](https://badge.fury.io/py/batch-niistats.svg)](https://pypi.org/project/batch-niistats/) [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](https://github.com/mcclaskey/batch_niistats/blob/main/LICENSE) [![batch_niistats-tests](https://img.shields.io/github/actions/workflow/status/mcclaskey/batch_niistats/python-package.yml?label=batch_niistats-tests&logo=github)](https://pypi.org/project/batch-niistats/) [![codecov](https://codecov.io/gh/mcclaskey/batch_niistats/branch/main/graph/badge.svg)](https://pypi.org/project/batch-niistats/) 
 
 
 Calculate statistics on a batch of 3D NIfTI files and return the output as a `.csv` file.
