@@ -33,8 +33,7 @@ classifiers = [
   "Development Status :: 5 - Production/Stable",
   "Environment :: Console",
   "Topic :: Scientific/Engineering :: Image Processing",
-  "Topic :: Scientific/Engineering :: Bio-Informatics",
-  "Topic :: Scientific/Engineering :: Medical Science Apps"
+  "Topic :: Scientific/Engineering :: Bio-Informatics"
 ]
 
 [project.urls]
