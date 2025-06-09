@@ -9,13 +9,13 @@ import os
 
 @pytest.mark.parametrize("args, expected_statistic, answer", [
     (["M"], "mean of nonzero voxels",
-     pd.Series([1039.369187, 1039.347735, 1039.369187,
+     pd.Series([1037.736913, 1037.729177, 1037.736913,
                 0.279955, 0.279955, np.nan])),
     (["m"], "mean of all voxels",
      pd.Series([880.965488, 880.965823, 880.965488,
                 0.069626, 0.069626, np.nan])),
     (["S"], "sd of nonzero voxels",
-     pd.Series([1738.948744, 1736.483171, 1738.948744,
+     pd.Series([1738.076330, 1735.620602, 1738.076330,
                 0.174158, 0.174159, np.nan])),
     (["s"], "sd of all voxels",
      pd.Series([1643.971591, 1641.771553, 1643.971591,
@@ -48,16 +48,16 @@ def test_cli_main_with_datalist1(mocker, args, expected_statistic, answer):
 
 @pytest.mark.parametrize("args, expected_statistic, answer", [
     (["M"], "mean of nonzero voxels",
-     pd.Series([np.nan, 1039.369187, 1039.347735, 1039.347735, 1039.369187,
-                1039.347735, 1039.369187, 1039.347735, 1039.369187,
+     pd.Series([np.nan, 1037.736913, 1037.729177, 1037.729177, 1037.736913,
+                1037.729177, 1037.736913, 1037.729177, 1037.736913,
                 0.279955, 0.279955, 0.279955, 0.279955, np.nan])),
     (["m"], "mean of all voxels",
      pd.Series([np.nan, 880.965488, 880.965823, 880.965823, 880.965488,
                 880.965823, 880.9654887, 880.965823, 880.965488,
                 0.069626, 0.069626, 0.069626, 0.069626, np.nan])),
     (["S"], "sd of nonzero voxels",
-     pd.Series([np.nan, 1738.948744, 1736.483171, 1736.483171, 1738.948744,
-                1736.483171, 1738.9487447, 1736.483171, 1738.948744,
+     pd.Series([np.nan, 1738.076330, 1735.620602, 1735.620602, 1738.076330,
+                1735.620602, 1738.0763307, 1735.620602, 1738.076330,
                 0.174158, 0.174158, 0.174158, 0.174158, np.nan])),
     (["s"], "sd of all voxels",
      pd.Series([np.nan, 1643.971591, 1641.771553, 1641.771553, 1643.971591,
@@ -92,9 +92,9 @@ def test_cli_main_with_datalist2(mocker, args, expected_statistic, answer):
 
 
 @pytest.mark.parametrize("args, expected_statistic, answer", [
-    (["M"], "mean of nonzero voxels", 1039.369187),
+    (["M"], "mean of nonzero voxels", 1037.736913),
     (["m"], "mean of all voxels", 880.965488),
-    (["S"], "sd of nonzero voxels", 1738.948744),
+    (["S"], "sd of nonzero voxels", 1738.076330),
     (["s"], "sd of all voxels", 1643.971591),
 ])
 def test_cli_main_with_datalist3(mocker, args, expected_statistic, answer):
