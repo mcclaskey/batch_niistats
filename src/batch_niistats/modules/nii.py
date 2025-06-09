@@ -36,7 +36,7 @@ def mean_nii(
     If omit_zeros is True, only nonzero voxels are included in calculation.
     """
 
-    return nii_array[nii_array > 0].mean() if omit_zeros else nii_array.mean()
+    return nii_array[nii_array != 0].mean() if omit_zeros else nii_array.mean()
 
 
 def sd_nii(
@@ -48,7 +48,7 @@ def sd_nii(
     If omit_zeros is True, only nonzero voxels are included in sd calculation.
     """
 
-    return data_array[data_array > 0].std() if omit_zeros else data_array.std()
+    return data_array[data_array != 0].std() if omit_zeros else data_array.std()
 
 
 def try_single_nii_calc(nii_rawinput: str,
